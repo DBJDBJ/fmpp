@@ -2,10 +2,10 @@
 //
 //                  
 //
-//                 Copyright (c)  2000-2006 by DBJSolutions LTD 
+//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
-//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF DBJSolutions LTD
+//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
 //
 //        The copyright notice above does not evidence any
 //        actual or intended publication of such source code.
@@ -94,7 +94,7 @@ _bstr_t dbjtypename( T * t_null /* = (T*)0 */ )
 #define DBJTYPEID(T) dbjtypename<T>((T*)0)
 //---------------------------------------------------------------------------------------
 //
-// interface to each and every DBJSolutions generated class
+// interface to each and every DBJ generated class
 // 
 		class DBJSYSError
 		{
@@ -129,7 +129,7 @@ _bstr_t dbjtypename( T * t_null /* = (T*)0 */ )
 			static _bstr_t  makeErrMsg( const _bstr_t & typeName, DWORD err_code , const _bstr_t & file, const long line ) ;
 		} ;
 //-------------------------------------------------------------------------------------
-// concrete class to be used as abase of all DBJSolutions exceptions
+// concrete class to be used as abase of all DBJ exceptions
 // that can be made
 // 
 template <class T> class Error : public DBJSYSError  

@@ -1,9 +1,9 @@
 //*****************************************************************************/
 //
-//                 Copyright (c)  2000-2006 by DBJSolutions Ltd. 
+//                 Copyright (c)  2000 - 2010 by DBJ Ltd. 
 //                          All Rights Reserved
 //
-//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF DBJSolutions LTD
+//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
 //
 //        The copyright notice above does not evidence any
 //        actual or intended publication of such source code.

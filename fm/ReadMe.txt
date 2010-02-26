@@ -1,6 +1,8 @@
-========================================================================
-    DBJ*FM++ Quick Overview
-========================================================================
+==========================================================================================
+   FM++ :: Quick Usage Overview
+==========================================================================================
+
+This is exclusively Windows product, built with Microsoft Visual C++ compiler.
 
 1. 
 to use this lib add the path to this folder and include "fm.h"
@@ -24,4 +26,4 @@ Almost all non-trivial mechanisms have testing code, at the bottom of their head
 The code is not part of the compilation unless #defines to compile them in,
 are defined, in application using the FM++.
 
-/////////////////////////////////////////////////////////////////////////////
+==========================================================================================

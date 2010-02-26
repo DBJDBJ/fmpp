@@ -21,7 +21,7 @@ void show_help_screen( const wchar_t * exe_name, std::wostream & os = std::wclog
 		dbgout(L"%s",  L"------------------------------------------------" ) ;
 		dbgout(L"%s",  exe_name ) ;
 		dbgout(L"%s",  L"\nDBJ*FM++ 'micro-testing' application" ) ;
-		dbgout(L"%s",  L"(c)2001-2006 by DBJSolutions Ltd.\n" ) ;
+		dbgout(L"%s",  L"(c)2001-2006 by DBJ Ltd.\n" ) ;
 		dbgout(L"%s",  L"------------------------------------------------" ) ;
 		dbgout(L"%s",  L"Usage:" ) ;
 		dbgout(L"%s",  L"Please provide one argument tagged with '-t'" ) ;

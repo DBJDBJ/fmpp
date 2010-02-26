@@ -2,10 +2,10 @@
 //
 //                  
 //
-//                 Copyright (c)  2000-2006 by DBJSolutions LTD 
+//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
-//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF DBJSolutions LTD
+//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
 //
 //        The copyright notice above does not evidence any
 //        actual or intended publication of such source code.
@@ -51,7 +51,7 @@ struct doctor {
 	// 
     static const wchar_t * PROMPT() { return L"Diagnostic Message" ; }
 	// 
-    static const wchar_t * TITLE() { return L"DBJSolutions FM Message" ; }
+    static const wchar_t * TITLE() { return L"DBJ FM Message" ; }
 	// 
 	static const wchar_t *	_swprintf ( wchar_t *, const wchar_t *, const wchar_t *, const wchar_t *);
 	// 

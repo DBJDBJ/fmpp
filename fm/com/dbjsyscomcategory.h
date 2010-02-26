@@ -1,8 +1,8 @@
 /*
 -----------------------------------------------------------------------------
-(c) 2000 by DBJSolutions LTD
+(c) 2000 by Dusan B. Jovanovic (dbj@dbj.org)
 -----------------------------------------------------------------------------
-  Here we define category ID for DBJSolutions made com stuff.
+  Here we define category ID for DBJ made com stuff.
   When we want to use it we have to include this file.
 
   Then have this map in your interface implementation:
@@ -19,7 +19,7 @@
 	{
 		{1CE79154-2763-4328-85D4-455E578699B8}
 		{
-			val 409 = s 'DBJSolutions LTD COM Artefacts'
+			val 409 = s 'Dusan B. Jovanovic (dbj@dbj.org) COM Artefacts'
 		}
 	}
 

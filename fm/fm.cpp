@@ -2,10 +2,10 @@
 //
 //                  
 //
-//                 Copyright (c)  2000-2006 by DBJSolutions LTD 
+//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
-//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF DBJSolutions LTD
+//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
 //
 //        The copyright notice above does not evidence any
 //        actual or intended publication of such source code.
@@ -68,7 +68,7 @@ static const unsigned volatile int APPEND_TO_LOG = 1 ;
 		}
 	}
 
-#pragma comment(exestr, "DBJ*FM++ (c) 2000-2006 by DBJSolutions Ltd.")
+#pragma comment(exestr, "DBJ*FM++ (c) 2000 - 2010 by DBJ Ltd.")
 #pragma warning( disable : 4073 ) 
 #pragma init_seg( lib )
 long __DBJSYS_FM_LIB_INITOR__::counter_ = 0;

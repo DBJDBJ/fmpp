@@ -1,8 +1,8 @@
 //*****************************************************************************/
-//                 Copyright (c)  2000-2006 by DBJSolutions LTD 
+//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
-//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF DBJSolutions LTD
+//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
 //
 //        The copyright notice above does not evidence any
 //        actual or intended publication of such source code.
@@ -104,7 +104,7 @@
 namespace dbjsys {
 namespace fm {
     //
-    // NOTE: this has to come from DBJSolutions implementation artefact!
+    // NOTE: this has to come from DBJ implementation artefact!
     inline const int DBJSYS_FM_VER_MAJOR() { return 5; }
     inline const int DBJSYS_FM_VER_MINOR() { return 0; }
     //

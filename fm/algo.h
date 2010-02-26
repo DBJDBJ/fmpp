@@ -2,10 +2,10 @@
 //
 //                  
 //
-//                 Copyright (c)  2000-2006 by DBJSolutions LTD 
+//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
-//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF DBJSolutions LTD
+//        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
 //
 //        The copyright notice above does not evidence any
 //        actual or intended publication of such source code.
@@ -290,10 +290,10 @@ inline const void errBox ( const wchar_t * format_, ... )
 	static const unsigned MSG_BUF_SIZ = BUFSIZ * 4 ;
 
 #if defined( _DEBUG )
-    static const wchar_t title[] = L"DBJSolutions Error Message, press Cancel to debug" ;
+    static const wchar_t title[] = L"DBJ Error Message, press Cancel to debug" ;
     UINT mbox_style = MB_OKCANCEL | MB_ICONERROR | MB_SYSTEMMODAL ;
 #else
-    static const wchar_t title[] = L"DBJSolutions Error Message" ;
+    static const wchar_t title[] = L"DBJ Error Message" ;
     UINT mbox_style = MB_OK | MB_ICONERROR | MB_SYSTEMMODAL ;
 #endif
     HWND        winHand = NULL ;
