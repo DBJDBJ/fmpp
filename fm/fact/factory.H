@@ -184,7 +184,7 @@ public :
             keys += dbjsys::fm::type_to_name( *this ).c_str() ;
             keys += "\nKeys:\n" ;
 
-        register j = 0 ;
+        register int j = 0 ;
             try {
                 while(true)
                     keys += ("[" + get_key(j++) + "]\n").c_str() ;

@@ -78,8 +78,8 @@ extern "C" void test_exception_rethrowing()
 //-----------------------------------------------------------------------
 // Register the test[s]
 //-----------------------------------------------------------------------
-static    dummy1 = DBJTESTREG( test_exception_rethrowing ) ;
-static    dummy2 = DBJTESTREG( exception_testing ) ;
+static   const int   dummy1 = DBJTESTREG( test_exception_rethrowing ) ;
+static   const int   dummy2 = DBJTESTREG( exception_testing ) ;
 //-----------------------------------------------------------------------
 // eofile
 //-----------------------------------------------------------------------

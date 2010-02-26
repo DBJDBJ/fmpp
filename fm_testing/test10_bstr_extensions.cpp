@@ -60,7 +60,7 @@ extern "C" void test_CmdLineArguments ()
 //-----------------------------------------------------------------------
 // Register the test[s]
 //-----------------------------------------------------------------------
-static    dummy1 = DBJTESTREG( test_CmdLineArguments ) ;
+static const int dummy1 = DBJTESTREG( test_CmdLineArguments ) ;
 //-----------------------------------------------------------------------
 // eofile
 //-----------------------------------------------------------------------

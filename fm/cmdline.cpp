@@ -94,7 +94,7 @@ public :
         if (( ! prefix ) && ( ! *prefix )) 
             return result_ ; // anti jokers measure
 
-        register j = 0 ;
+        register int j = 0 ;
 
 		const char_type * candidate_ = NULL ;
 
@@ -136,7 +136,7 @@ public :
         if (( ! prefix ) && ( ! *prefix )) 
             return result_ ; // anti jokers measure
 
-        register j = 0 ;
+        register int j = 0 ;
 
         while ( NULL != ( result_ = operator [] (j++)))
         {

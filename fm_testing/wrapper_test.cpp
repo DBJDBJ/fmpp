@@ -42,8 +42,8 @@ extern "C" void wrapwrap_test ( void)
 //-----------------------------------------------------------------------
 // Register the test[s]
 //-----------------------------------------------------------------------
-static    dummy1 = DBJTESTREG( wrap_test ) ;
-static    dummy2 = DBJTESTREG( wrapwrap_test ) ;
+static  const int    dummy1 = DBJTESTREG( wrap_test ) ;
+static  const int    dummy2 = DBJTESTREG( wrapwrap_test ) ;
 //-----------------------------------------------------------------------
 // eofile
 //-----------------------------------------------------------------------

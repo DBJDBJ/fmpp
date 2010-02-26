@@ -75,7 +75,7 @@ private:
 inline timer::timer( ) 
 : prompt_(" ")
 {
-	//for ( register j = 0 ; j < timebuflen_ ; timebuf_[j++] = 0 )
+	//for ( register int j = 0 ; j < timebuflen_ ; timebuf_[j++] = 0 )
 	//{}
 	_ftime( &timebuffer );
 };
@@ -86,7 +86,7 @@ inline timer::timer( )
 inline timer::timer( const _bstr_t & data_ ) 
 : prompt_( data_ )
 {
-	//for ( register j = 0 ; j < timebuflen_ ; timebuf_[j++] = 0 )
+	//for ( register int j = 0 ; j < timebuflen_ ; timebuf_[j++] = 0 )
 	//{}
 	_ftime( &timebuffer );
 };

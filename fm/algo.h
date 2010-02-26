@@ -20,6 +20,26 @@
 
 #pragma once
 
+/*
+Warning	413	warning C4996: '_ftime64': This function or variable may be unsafe. 
+Consider using _ftime64_s instead. To disable deprecation, use 
+_CRT_SECURE_NO_WARNINGS. See online help for details.	
+
+Warning	412	warning C4996: 'swprintf': swprintf has been changed to conform with the ISO C standard, 
+adding an extra character count parameter. To use traditional Microsoft swprintf, 
+set _CRT_NON_CONFORMING_SWPRINTFS.	
+
+Warning	2	warning C4996: 'std::copy': Function call with parameters that may be unsafe - 
+this call relies on the caller to check that the passed values are correct. 
+To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. 
+See documentation on how to use Visual C++ 'Checked Iterators'
+
+*/
+#define _CRT_SECURE_NO_WARNINGS 1
+#define _CRT_NON_CONFORMING_SWPRINTFS 1
+#define _SCL_SECURE_NO_WARNINGS 1
+
+
 //--------------------------------------------------------------------------------
 namespace dbjsys {
     namespace fm {
@@ -422,7 +442,7 @@ std::vector<std::wstring> sstore_ ;
 
    argv = (wchar_t **)malloc(argc * sizeof(wchar_t *));
 
-   for ( register j = 0 ; j < argc ; j++ )
+   for ( register int j = 0 ; j < argc ; j++ )
    {
 		*(argv+j) = _wcsdup( sstore_[j].c_str() ) ;
    }
@@ -435,7 +455,7 @@ std::vector<std::wstring> sstore_ ;
 inline void releaseargs( int argc, wchar_t ** & argv ) 
 {
 try {
-   for ( register j = 0 ; j < argc ; j++ )
+   for ( register int j = 0 ; j < argc ; j++ )
    {
 		free (argv[j]) ;
 		argv[j] = NULL ;

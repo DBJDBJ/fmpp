@@ -17,6 +17,24 @@
 #if ! defined( dbj52268636_C3F6_4a93_A980_EC41CAA85FF6 )
 #define dbj52268636_C3F6_4a93_A980_EC41CAA85FF6 1
 //----------------------------------------------------------------
+/*
+Warning	413	warning C4996: '_ftime64': This function or variable may be unsafe. 
+Consider using _ftime64_s instead. To disable deprecation, use 
+_CRT_SECURE_NO_WARNINGS. See online help for details.	
+
+Warning	412	warning C4996: 'swprintf': swprintf has been changed to conform with the ISO C standard, 
+adding an extra character count parameter. To use traditional Microsoft swprintf, 
+set _CRT_NON_CONFORMING_SWPRINTFS.	
+
+Warning	2	warning C4996: 'std::copy': Function call with parameters that may be unsafe - 
+this call relies on the caller to check that the passed values are correct. 
+To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. 
+See documentation on how to use Visual C++ 'Checked Iterators'
+
+*/
+#define _CRT_SECURE_NO_WARNINGS 1
+#define _CRT_NON_CONFORMING_SWPRINTFS 1
+#define _SCL_SECURE_NO_WARNINGS 1
 //////////////////////////////////////////////////////////////////////////////////
 #if defined _DEBUG
 #pragma comment( lib, "dbj_fmdbg.lib"  ) 

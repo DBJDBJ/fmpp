@@ -139,9 +139,9 @@ namespace dbjsys
 
                 switch( status_[0].dwCurrentState  )
                 {
-                    case SERVICE_STOPPED: return SCMQuery::STATUS::Stopped ;
-                    case SERVICE_RUNNING: return SCMQuery::STATUS::Running ;
-                    default: return SCMQuery::STATUS::Stopped;
+                    case SERVICE_STOPPED: return SCMQuery::Stopped ;
+                    case SERVICE_RUNNING: return SCMQuery::Running ;
+                    default: return SCMQuery::Stopped;
                 }
             }
             catch( ... )
@@ -149,7 +149,7 @@ namespace dbjsys
                 dbjTHROWERR( L"An unknown exception occured while trying to enumerate through the services" ) ;
             }
 
-            return SCMQuery::STATUS::NotInstalled ;
+            return SCMQuery::NotInstalled ;
         }
 
     }; // namespace fm

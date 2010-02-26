@@ -86,7 +86,7 @@ extern"C"  void test3()
 // resource string testing
 extern"C"  void test4()
 {
-   for ( register j = 0 ; j < 13; j++ )
+   for ( register int j = 0 ; j < 13; j++ )
     dbjsys::fm::stringRtest( IDS_STRING1 ) ;
 }
 //-----------------------------------------------------------------------
@@ -125,14 +125,14 @@ extern"C"  void test8()
 //-----------------------------------------------------------------------
 // 
 //-----------------------------------------------------------------------
-static    dummy1 = DBJTESTREG( test1 ) ;
-static    dummy2 = DBJTESTREG( test2 ) ;
-static    dummy3 = DBJTESTREG( test3 ) ;
-static    dummy4 = DBJTESTREG( test4 ) ;
-static    dummy5 = DBJTESTREG( test5_timestamp ) ;
-static    dummy6 = DBJTESTREG( test6 ) ;
-static    dummy7 = DBJTESTREG( test7_testing_thread_map ) ;
-static    dummy8 = DBJTESTREG( test8 ) ;
+static const int   dummy1 = DBJTESTREG( test1 ) ;
+static const int   dummy2 = DBJTESTREG( test2 ) ;
+static const int   dummy3 = DBJTESTREG( test3 ) ;
+static const int   dummy4 = DBJTESTREG( test4 ) ;
+static const int   dummy5 = DBJTESTREG( test5_timestamp ) ;
+static const int   dummy6 = DBJTESTREG( test6 ) ;
+static const int   dummy7 = DBJTESTREG( test7_testing_thread_map ) ;
+static const int   dummy8 = DBJTESTREG( test8 ) ;
 //-----------------------------------------------------------------------
 // eofile
 //-----------------------------------------------------------------------

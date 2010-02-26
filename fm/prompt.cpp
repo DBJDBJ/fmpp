@@ -139,7 +139,8 @@ DBJFMTXP template DBJFMAPI void val2prompt<bstr_t>( const bstr_t & arg  ) ;
 //
 // DBJFMTXP template DBJFMAPI void val2prompt<wchar_t*>( const wchar_t* & arg  ) ;
 //
-DBJFMTXP template DBJFMAPI void val2prompt<std::wstring>( const std::wstring & arg  ) ;
+// DBJFMTXP template DBJFMAPI void val2prompt<std::wstring>( const std::wstring & arg  ) ;
+// VC9 throws Error C3416, above
 //
 //--------------------------------------------------------------------------------
 }
