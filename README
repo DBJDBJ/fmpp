@@ -1,13 +1,15 @@
-
 ---------------------------------------------------------------------------
 Fm++ :: Foundation Mechanisms for C++  Version 1.0.0
+
+Foundation Mechanism (FM) lies between a library and a framework.
+For example std:io is an FM, rather than LIB.
 ---------------------------------------------------------------------------
 
-(c) 2010 by DBJ.ORG ( Author: Dusan B. Jovanovic )
+(c) 1999-2013 by DBJ.ORG ( Author: Dusan B. Jovanovic )
 
 License MIT
 
-  Copyright (c) 2009 Dusan B. Jovanovic
+  Copyright (c) Dusan B. Jovanovic
   
   Permission is hereby granted, free of charge, to any person
   obtaining a copy of this software and associated documentation
