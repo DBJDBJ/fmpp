@@ -1,0 +1,51 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fm", "fm\fm.vcproj", "{084F2C2D-326C-493E-84FB-558E2139C926}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fm_testing", "fm_testing\fm_testing.vcproj", "{B6526796-A174-4EDF-AF18-CA2633360B4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A7280E-AFA6-4EC6-A203-F8512361988F} = {E8A7280E-AFA6-4EC6-A203-F8512361988F}
+		{084F2C2D-326C-493E-84FB-558E2139C926} = {084F2C2D-326C-493E-84FB-558E2139C926}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbjptl", "fm\ptl\Ssptl.vcproj", "{E8A7280E-AFA6-4EC6-A203-F8512361988F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{084F2C2D-326C-493E-84FB-558E2139C926} = {084F2C2D-326C-493E-84FB-558E2139C926}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 4
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = fm\\fm.vcproj
+		SccLocalPath1 = .
+		SccProjectFilePathRelativizedFromConnection1 = fm\\
+		SccProjectUniqueName2 = fm\\ptl\\Ssptl.vcproj
+		SccLocalPath2 = .
+		SccProjectFilePathRelativizedFromConnection2 = fm\\ptl\\
+		SccProjectUniqueName3 = fm_testing\\fm_testing.vcproj
+		SccLocalPath3 = .
+		SccProjectFilePathRelativizedFromConnection3 = fm_testing\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{084F2C2D-326C-493E-84FB-558E2139C926}.Debug|Win32.ActiveCfg = Debug|Win32
+		{084F2C2D-326C-493E-84FB-558E2139C926}.Debug|Win32.Build.0 = Debug|Win32
+		{084F2C2D-326C-493E-84FB-558E2139C926}.Release|Win32.ActiveCfg = Release|Win32
+		{084F2C2D-326C-493E-84FB-558E2139C926}.Release|Win32.Build.0 = Release|Win32
+		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Debug|Win32.Build.0 = Debug|Win32
+		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Release|Win32.ActiveCfg = Release|Win32
+		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Release|Win32.Build.0 = Release|Win32
+		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Debug|Win32.Build.0 = Debug|Win32
+		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Release|Win32.ActiveCfg = Release|Win32
+		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

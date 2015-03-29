@@ -41,7 +41,7 @@ namespace dbjsys {
 		bstr_t & assign_from_bstr_t_ ( bstr_t & bstr, const std::wostream & t_) 
 		{
 			std::wostringstream wos ;
-			wos << t_ ;
+			wos << t_.rdbuf() ;
 			bstr += wos.str().c_str() ;
 			return bstr ;
 		}

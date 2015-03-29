@@ -33,6 +33,11 @@ typedef wchar_t char_type ;
 //
 // Created  DBJ     03122000
 //
+// This is singleton as implementation
+// It is also thread safe
+// str::string or std:wstring are not used here
+// this depends on comutil.h
+//
 // 
 class CmdLineArguments {
 
@@ -177,6 +182,15 @@ public :
 }
 
 //--------------------------------------------------------------------------------------
+
+template<typename T>
+const string_type cl_argument<T>::operator [] (const unsigned int & index) const
+{
+	return string_type(cline_[index]) ;
+}
+
+
+//--------------------------------------------------------------------------------------
 //
 //    cl_argument encapsulates single comand line argument. 
 //--------------------------------------------------------------------------------------
@@ -185,8 +199,10 @@ public :
     {
 		return cline_.symbol_exists(cl_symbol) ;
 	}
+//--------------------------------------------------------------------------------------
 //
 // resolve the actual value and its type by c.l. symbol used 
+//
 //--------------------------------------------------------------------------------------
     template<typename T>
     const T & cl_argument<T>::operator () ( const char_type  * const cl_symbol ) 
@@ -206,7 +222,14 @@ public :
 					return this->reqval_ ;
     }
 //--------------------------------------------------------------------------------------
+//
+// in header we have this two typedefs
+//
+//	typedef dbjsys::fm::cl_argument<_bstr_t>   cli_argument_string ;
+//	typedef dbjsys::fm::cl_argument<long>      cli_argument_long;
+//
 // explicit instantiations
+//
 // Whenever code that uses FM and some cl_argument<T> does not link we have
 // to add cl_argument<> specialization for T here. This is not so bad because
 // number of different types T is small in the context of command line arguments. 

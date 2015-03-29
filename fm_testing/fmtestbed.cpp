@@ -51,6 +51,8 @@ void show_help_screen( const wchar_t * exe_name, std::wostream & os = std::wclog
 }
 //-----------------------------------------------------------------------
 } // namespace
+
+
 //-----------------------------------------------------------------------
 //
 // Output:
@@ -64,18 +66,30 @@ void show_help_screen( const wchar_t * exe_name, std::wostream & os = std::wclog
 // 2    exception cought
 //
 //-----------------------------------------------------------------------
+
 int wmain ( int argc, wchar_t ** argv )
 {
-    dbjsys::fm::cl_argument<_bstr_t>   cl_arg( L"~" ) ; // def.val. is  L"~"
+	TODO;
 
-	_bstr_t	testname_ ; // extract arg. val. by symbol '-t'
+	dbj::fm::CLI  cli2;
+
+	long qm = cli2.val<long>(L"-?");
+	
+	dbjsys::fm::cli_argument_string  cl_arg(L"~"); // def.val. is  L"~"
+
+	dbjsys::fm::cli_argument_string::Type testname_; // extract arg. val. by symbol '-t'
+
+	auto	tname = dbjsys::fm::cli_argument_(L"-t",  L"");
+
+	tname = dbjsys::fm::cli_argument_(0);
+
 
 	if ( cl_arg.exists(L"-?") )
 	{
 			show_test_names( argv[0] , std::wcout ) ;
 			return 1 ;
 	}
-
+	else
 	if ( cl_arg.exists(L"-t") )
 	{
 		testname_ = cl_arg(L"-t") ;

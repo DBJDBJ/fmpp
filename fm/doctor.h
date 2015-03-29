@@ -149,6 +149,21 @@ inline const wchar_t * doctor::title ()
 }
 //--------------------------------------------------------------------------------
 //
+/*
+Warning	4	warning C4996 : 'swprintf' : swprintf has been changed to conform with the ISO C standard, 
+adding an extra character count parameter.
+To use traditional Microsoft swprintf, set _CRT_NON_CONFORMING_SWPRINTFS
+*/
+#if ! defined(_CRT_NON_CONFORMING_SWPRINTFS)
+#define _CRT_NON_CONFORMING_SWPRINTFS
+#endif
+/*
+Warning	5	warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. 
+To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details
+*/
+#if ! defined(_CRT_SECURE_NO_WARNINGS)
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 //
 inline const wchar_t * doctor::_swprintf ( wchar_t * res, const wchar_t * fmt , 
 					 const wchar_t * a1, const wchar_t * a2)
