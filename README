@@ -5,11 +5,11 @@ Foundation Mechanism (FM) lies between a library and a framework.
 For example std:io is an FM, rather than LIB.
 ---------------------------------------------------------------------------
 
-(c) 1999-2013 by DBJ.ORG ( Author: Dusan B. Jovanovic )
+(c) 1999-2015 by DBJ.ORG ( Author: Dusan B. Jovanovic )
 
 License MIT
 
-  Copyright (c) Dusan B. Jovanovic
+  Copyright (c) Dusan B. Jovanovic for DBJ.ORG
   
   Permission is hereby granted, free of charge, to any person
   obtaining a copy of this software and associated documentation
