@@ -190,7 +190,7 @@ inline const void test_CmdLineArguments()
 } // namespace dbj 
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
-namespace dbj { namespace fm  {
+namespace dbjsys { namespace fm  {
 //--------------------------------------------------------------------------------------
 /*
 std::vector based implementation
@@ -223,10 +223,20 @@ outfname = *++i;
 */
 	class CLI {
 	public:
+
 		typedef std::vector<std::wstring> Cli_type;
 		typedef Cli_type::iterator Iterator_type;
 		typedef Cli_type::iterator::value_type Value_type;
 		typedef Value_type char_type;
+		//
+		class Error { public: const wchar_t * name() { return L"dbj::fm::CLI::Error"; } };
+		class NotFound : public Error { 
+			NotFound() {}
+		public:
+			std::wstring msg_;
+			NotFound(const std::wstring & m_) : msg_(m_) {}
+			const std::wstring what() { return std::wstring(name()) + L" not found " + msg_ ; } 
+		};
 		//
 		CLI()
 			: args_( __wargv, __wargv + __argc)
@@ -234,7 +244,6 @@ outfname = *++i;
 			_ASSERTE( args_.size() );
 		}
 
-		const char_type & module_name() { return args_[0] ;  }
 		/*
 		main extractor : gets by tag and casts into the type desired
 		*/
@@ -244,7 +253,8 @@ outfname = *++i;
 			try {
 				Cli_type::iterator result_ = this->find(cl_symbol);
 
-				if (result_ == args_.end()) return T();
+				if (result_ == args_.end())
+					throw new CLI::NotFound(cl_symbol);
 
 				_variant_t vart( (*result_).c_str()) ;
 
@@ -263,10 +273,14 @@ outfname = *++i;
 
 			Cli_type::iterator result_ = this->find(cl_symbol);
 
-			return (result_ == args_.end())
-				? char_type()
-				: *result_;
+			if (result_ == args_.end())
+				throw new CLI::NotFound(cl_symbol);
+
+			return *result_;
 		}
+
+		// extract the module name inside which we are running
+		const char_type & val (unsigned int idx_ ) const { return args_[idx_]; }
 
 	private :
 		Cli_type args_;
@@ -284,7 +298,63 @@ outfname = *++i;
 			return flag_ == args_.end() ? flag_ : ++flag_ ;
 		}
 	};
-//--------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
+	// use this as an universal cli method 
+	/**/
+	template<class T>
+	inline const T clargument(const wchar_t  * const cl_tag, const T & def_val)
+	{
+		CLI cliarg_ ;
+			try {
+				return cliarg_.val<T>(cl_tag);
+			}
+			catch (CLI::NotFound &){
+				return def_val;
+		}
+	}
+	/**/
+	// for string_type 
+	inline const CLI::Value_type clargument(const wchar_t  * const cl_tag, const CLI::Value_type & def_val)
+	{
+		CLI cliarg_ ;
+		try {
+			return cliarg_.val(cl_tag);
+		}
+		catch (CLI::NotFound &){
+			return def_val;
+		}
+	}
+	// for long
+	inline const long clargument(const wchar_t  * const cl_tag, const long & def_val)
+	{
+		CLI cliarg_;
+		try {
+			return cliarg_.val<long>(cl_tag);
+		}
+		catch (CLI::NotFound &){
+			return def_val;
+		}
+	}
+	/*
+	// for bool
+	inline const long clargument(const wchar_t  * const cl_tag, const bool & def_val)
+	{
+		CLI cliarg_;
+		try {
+			return cliarg_.val<bool>(cl_tag);
+		}
+		catch (CLI::NotFound &){
+			return def_val;
+		}
+	}
+	*/
+	// just a "normal" indexed access to the CLI
+	inline const CLI::Value_type clargument(unsigned int idx_ = 0)
+	{
+		CLI cliarg_;
+		return cliarg_.val(idx_);
+	}
+	//--------------------------------------------------------------------------------------
 } // namespace fm 
 } // namespace dbj 
 //--------------------------------------------------------------------------------------

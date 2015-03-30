@@ -71,7 +71,7 @@ int wmain ( int argc, wchar_t ** argv )
 {
 	TODO;
 
-	dbj::fm::CLI  cli2;
+	dbjsys::fm::CLI  cli2;
 
 	long qm = cli2.val<long>(L"-?");
 	

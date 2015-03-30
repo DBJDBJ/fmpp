@@ -9,13 +9,17 @@
 
 int wmain(int argc, wchar_t ** argv)
 {
-	dbj::fm::CLI  cli;
+	using namespace dbjsys;
 
-	auto this_name = cli.module_name();
+	auto module_name = dbjsys::fm::clargument();
 
-	long			qm		= cli.val<long>(L"-age");
-	std::wstring	qm2		= cli.val(L"-name");
-	bool			trained = cli.val<bool>(L"-trained");
+	// extractor of string command line argument
+	// with default value to be used if no tag exist
+	auto age = fm::clargument(L"-age", 0);
+
+	auto name = fm::clargument(L"-name", L"Unknown");
+
+	auto trained = fm::clargument(L"-trained", false);
 
 	return 0;
 }
