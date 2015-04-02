@@ -1,7 +1,9 @@
 ---------------------------------------------------------------------------
-Fm++ :: Foundation Mechanisms for C++  Version 1.0.0
+Fm++ :: Foundation Mechanisms for C++  
 ===================================================
-Foundation Mechanism (FM) lies between a library and a framework.
+##Version 1.5.1
+
+[Foundation Mechanism (FM) lies between a library and a framework.](http://dbjdbj.github.io/fmpp)
 For example std:io is an FM, rather than LIB.
 ---------------------------------------------------------------------------
 
