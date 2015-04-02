@@ -23,6 +23,12 @@
 #if ! defined ( type_info )
 #include <typeinfo.h> 
 #endif
+/*
+Compiler Warning (level 3) C4290 Visual Studio 2013Visual Studio 2013
+C++ exception specification ignored except to indicate a function is not __declspec(nothrow) 
+*/
+#pragma warning( disable : 4290 )
+
 // ----------------------------------------------------------------------
 namespace dbjsys {
 	namespace fm {
@@ -113,26 +119,116 @@ _bstr_t dbjtypename( T * t_null /* = (T*)0 */ )
 			{
 			}		
 	// 
-			virtual ~DBJSYSError() ;
-			//
-	// 
+			virtual ~DBJSYSError()
+			{
+			}
+			// 
 			const _bstr_t & what () const 
 			{ 
-				const_cast<DBJSYSError*>(this)->reported_ = true ; 
 				return errmsg_ ; 
 			}
+
+			const _bstr_t & report( const bool & pop = false ) const
+			{
+				if (false == reported_)
+				{
+					const_cast<DBJSYSError*>(this)->reported_ = true;
+					::Beep(100, 300);
+					err_msg_box(errmsg_);
+				}
+				return errmsg_;
+			}
+
 			// make 'standard' error message
 	// 
-			static _bstr_t  makeErrMsg( const _bstr_t & typeName, const _bstr_t & msg, const _bstr_t & file, const long line ) ;
+			static _bstr_t  & makeErrMsg( const _bstr_t & typeName, const _bstr_t & msg, const _bstr_t & file, const long line ) ;
 			// make win32 error message
 	// 
-			static _bstr_t  makeErrMsg( const _bstr_t & typeName, DWORD err_code , const _bstr_t & file, const long line ) ;
+			static _bstr_t  & makeErrMsg( const _bstr_t & typeName, DWORD err_code , const _bstr_t & file, const long line ) ;
+
+			static void err_msg_box(
+				const _bstr_t & msg_, 
+				const _bstr_t & title_ = TEXT("Fm++ Error ----------------------------------------------------------------- "), 
+				bool   exit_  = false)
+			{
+				MessageBox(NULL, (LPCTSTR)msg_, title_, MB_OK);
+
+				if ( exit_)
+					ExitProcess(GetLastError());
+			}
 		} ;
+
+		//-----------------------------------------------------------------------
+		// Implementation 
+		//-----------------------------------------------------------------------
+		//
+		//-----------------------------------------------------------------------
+		// 
+				_bstr_t  & DBJSYSError::makeErrMsg
+					(const _bstr_t & typeName, const _bstr_t & msg, const _bstr_t & file, const long line)
+				{
+					static const wchar_t prompt1[] = L"\nException!From : ";
+					static const wchar_t prompt2[] = L"\nWhat : ";
+					static const wchar_t prompt3[] = L"\nFile : ";
+					static const wchar_t prompt4[] = L"\nLine : ";
+
+					static _bstr_t NEM = L"Not enough memory! " + _bstr_t(__FILE__) + L":" + _bstr_t(_variant_t(__LINE__));
+					static _bstr_t text;
+					try
+					{
+						text = prompt1 + typeName;
+						text += prompt2 + msg;
+						text += prompt3 + file;
+						text += prompt4 + _bstr_t(_variant_t(line)) ;
+					}
+					catch (...)
+					{
+						return NEM;
+					}
+					return text;
+				}
+				//---------------------------------------------------------------------------------------
+				static _bstr_t & errstring_(DWORD lastErrorCode);
+				// make win32 error message
+				_bstr_t  & DBJSYSError::makeErrMsg(const _bstr_t & typeName, DWORD err_code, const _bstr_t & file, const long line)
+				{
+					return DBJSYSError::makeErrMsg(
+						typeName,
+						errstring_(err_code),
+						file,
+						line);
+				}
+				//--------------------------------------------------------------------------------
+				static _bstr_t & errstring_(DWORD lastErrorCode)
+				{
+					static _bstr_t result;
+					LPWSTR lpMsgBuf = NULL;
+
+					if (lastErrorCode != 0)
+					{
+
+						_ASSERT(FormatMessage(
+							FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+							NULL,
+							lastErrorCode, // result of GetLastError()
+							MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+							(LPWSTR)&lpMsgBuf, 0, NULL)
+							);
+						result = lpMsgBuf;
+						::LocalFree(lpMsgBuf);
+					}
+					else {
+						result = L"Not an Win32 error";
+					}
+					return result;
+				}
+
+//------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
 // concrete class to be used as abase of all DBJ exceptions
 // that can be made
 // 
-template <class T> class Error : public DBJSYSError  
+template <class T> class Error : protected DBJSYSError  
 {
   
 	typedef  DBJSYSError	parent_type ;
@@ -141,9 +237,9 @@ template <class T> class Error : public DBJSYSError
     typedef T thrower_type;
 
 	// 
-      Error (const DWORD & win32error_code, bool DO_NOT_BEEP_ON_EXIT = false ) throw()
+	Error(const DWORD & win32error_code, const  _bstr_t & file, const int line, bool DO_NOT_BEEP_ON_EXIT = false) throw()
 		  : parent_type(
-            parent_type::makeErrMsg( DBJTYPEID(thrower_type), win32error_code,L"~",0),
+            parent_type::makeErrMsg( DBJTYPEID(thrower_type), win32error_code,file,line),
 			DO_NOT_BEEP_ON_EXIT )
       {
       }
@@ -164,6 +260,17 @@ template <class T> class Error : public DBJSYSError
 			DO_NOT_BEEP_ON_EXIT )
       {
       }
+
+	  // 
+	  const _bstr_t & what() const
+	  {
+		  return parent_type::what();
+	  }
+
+	  const _bstr_t & report(const bool & pop_ = false ) const
+	  {
+		  return parent_type::report(pop_);
+	  }
 };
 //-------------------------------------------------------------------------------------
 // WIn32 error message + who did it,but not where
@@ -171,25 +278,47 @@ template <class T> class Error : public DBJSYSError
 template<class T> class Win32Error : public Error<T>
 {
 	typedef Error<T> Parent ;
-	public :
+	
+	Win32Error() {};
+    public:
 	// 
-		Win32Error () 
-			: Parent( ::GetLastError() ) 
+		Win32Error(const _bstr_t & file, const long & line_)
+			: Parent( ::GetLastError(), file, line_ ) 
 		{
-			::SetLastError(0) ;
+		}
+
+		Win32Error(DWORD winerr_, const _bstr_t & file, const long & line_)
+			: Parent(winerr_, file, line_)
+		{
+		}
+
+		~Win32Error()
+		{
+				::SetLastError(0);
+		}
+
+		//template<class T>
+		static void report_only(
+			DWORD winerr_ = ::GetLastError(),
+			const _bstr_t & file = L"", 
+			const long & line_ = 0)
+		{
+			Win32Error<T> ERR_(winerr_, file,line_);
+			ERR_.report(true);
 		}
 } ;
 
 //	----------------------------------------------
 #undef DBJTYPEID
 //	----------------------------------------------
-// class _com_error ;
+// transform class _com_error to DBJSYSError ;
 template < class T > inline
 void __dbj_throw__ ( const _com_error & e, const _bstr_t & file, const int line , T * )
 {
         throw T( dbjsys::fm::getErrMsg( e ),file,line) ;
 }
 //	----------------------------------------------
+// construct desired DBJSYSError inheritor
 template < class T > inline
 void __dbj_throw__ ( const _bstr_t &  msg, const _bstr_t &  file, const int line, T * )
 {
@@ -211,24 +340,33 @@ void __dbj_throw__ ( const std::exception & msg, const char * file, const int li
     throw T(msg.what(), _bstr_t(file), line) ;
 }
 /* */
-//	----------------------------------------------
-	} ; // fm
-}; // dbjsys
-//	----------------------------------------------
+//	-----------------------------------------------------
+// macro that makes Err required by this mechanism
+#define dbjMAKE_ERR(x) typedef dbjsys::fm::Error<x> Err
+// this macro requires Err to be declared inside a scope
+// in which it is used, to provide the "offending" typename
+// it is always used by dbjVERIFY() macro bellow
+//
+// class X {
+//   dbjMAKE_ERR(X);      
+//    void throwerr () {  dbjVERIFY(false); }
+// }
 //
 #define dbjTHROWERR(m) dbjsys::fm::__dbj_throw__(m,__FILE__,__LINE__, (Err*)0)
 //
 // this assertion always works , e.g. in a release mode
 // string argument is always taken as UNICODE (prefixed with  'L')
-#define dbjVERIFY(x) if (!(x)) dbjTHROWERR( L#x )
+#define dbjVERIFY(x) if (!(x)) dbjTHROWERR(L#x)
 //
 #define dbjCOMVERIFY( x ) _com_util::CheckError( x )
-//
-#define dbjMAKE_ERR(x) typedef dbjsys::fm::Error<x> Err
 // 
+// make offspring of the internall Err class
 #define dbj_ERR(x) struct dbjNOVTABLE x : public Err { x() : Err(L#x, true ) {} } ;
 //
-#define dbjTHROWIF(x,y) if ( x ) throw y() 
+#define dbjTHROWIF(x,y) if ( x ) throw y(__FILE__,__LINE__) 
 
 //	----------------------------------------------
+//	----------------------------------------------
+	}; // fm
+}; // dbjsys
 #endif

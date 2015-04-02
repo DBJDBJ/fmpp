@@ -22,9 +22,13 @@ namespace fm {
 		typedef wchar_t char_type;
 		typedef _bstr_t string_type;
 #else
-#error DBJ*FM++ __FILE__ has to be compiled as UNICODE 
+//		#warning DBJ*FM++ __FILE__ has to be compiled as UNICODE 
+		typedef wchar_t char_type;
+		typedef _bstr_t string_type;
 #endif
 	}
+
+
 
 //--------------------------------------------------------------------------------------
 //

@@ -76,7 +76,7 @@ bool file_version::Open(LPCWSTR lpszModuleName)
 	                          (void**)m_lpVersionData) )
     {
         Close();
-        throw  WinErr() ;
+        throw  WinErr(__FILE__,__LINE__) ;
     }
 
     // Retrieve the first language and character-set identifier
@@ -86,7 +86,7 @@ bool file_version::Open(LPCWSTR lpszModuleName)
                          (void **)&pTransTable, &nQuerySize) )
     {
         Close();
-        throw  WinErr() ;
+		throw  WinErr(__FILE__, __LINE__);
     }
 
     // Swap the words to have lang-charset in the correct format
