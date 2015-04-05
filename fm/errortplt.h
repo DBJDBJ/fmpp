@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -14,12 +14,9 @@
 //  $Date: $
 //  $Revision: $
 //*****************************************************************************/
-//	
+#pragma once
 //---------------------------------------------------------------------------------------
 //	Library of Sub-System Mechanisms
-#ifndef errortplt_h
-#define errortplt_h 1
-#pragma once
 #if ! defined ( type_info )
 #include <typeinfo.h> 
 #endif
@@ -311,6 +308,11 @@ template<class T> class Win32Error : public Error<T>
 //	----------------------------------------------
 #undef DBJTYPEID
 //	----------------------------------------------
+	/*
+	Helper methods used by macros bellow
+
+	TODO: as normal template + specializations suite of functions
+	*/
 // transform class _com_error to DBJSYSError ;
 template < class T > inline
 void __dbj_throw__ ( const _com_error & e, const _bstr_t & file, const int line , T * )
@@ -340,33 +342,45 @@ void __dbj_throw__ ( const std::exception & msg, const char * file, const int li
     throw T(msg.what(), _bstr_t(file), line) ;
 }
 /* */
+//	----------------------------------------------
+	}; // fm
+}; // dbjsys
+
 //	-----------------------------------------------------
+/*
+following are not generic macrose
+they require class Err to be declared inside a scope
+in which it is used, to provide the typename
+
+class X {
+dbjMAKE_ERR(X);
+dbjERR(ErrSpecific) ;
+void throwerr () {  dbjVERIFY(false); }
+}
+
+Please note that above we have a mechanism that creates a micro hierarchy
+with  dbjsys::fm::Error<X> as a base class and
+ErrSpecific as its offspring
+
+Always used by dbjVERIFY() macro bellow
+
+*/
 // macro that makes Err required by this mechanism
 #define dbjMAKE_ERR(x) typedef dbjsys::fm::Error<x> Err
-// this macro requires Err to be declared inside a scope
-// in which it is used, to provide the "offending" typename
-// it is always used by dbjVERIFY() macro bellow
-//
-// class X {
-//   dbjMAKE_ERR(X);      
-//    void throwerr () {  dbjVERIFY(false); }
-// }
-//
 #define dbjTHROWERR(m) dbjsys::fm::__dbj_throw__(m,__FILE__,__LINE__, (Err*)0)
 //
 // this assertion always works , e.g. in a release mode
 // string argument is always taken as UNICODE (prefixed with  'L')
 #define dbjVERIFY(x) if (!(x)) dbjTHROWERR(L#x)
+// make offspring of the internall Err class
+#define dbj_ERR(x) struct dbjNOVTABLE x : public Err { x() : Err(L#x, true ) {} } ;
+/*
+following are a bit more generic macros
+*/
 //
 #define dbjCOMVERIFY( x ) _com_util::CheckError( x )
 // 
-// make offspring of the internall Err class
-#define dbj_ERR(x) struct dbjNOVTABLE x : public Err { x() : Err(L#x, true ) {} } ;
 //
 #define dbjTHROWIF(x,y) if ( x ) throw y(__FILE__,__LINE__) 
 
 //	----------------------------------------------
-//	----------------------------------------------
-	}; // fm
-}; // dbjsys
-#endif

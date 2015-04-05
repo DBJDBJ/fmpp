@@ -1,5 +1,5 @@
 //*****************************************************************************/
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -123,8 +123,11 @@ namespace dbjsys {
 namespace fm {
     //
     // NOTE: this has to come from DBJ implementation artefact!
+	/*
+	DBJ		06042015	moved to dbjsys::glob
     inline const int DBJSYS_FM_VER_MAJOR() { return 5; }
     inline const int DBJSYS_FM_VER_MINOR() { return 0; }
+	*/
     //
     //------------------------------------------------------------
     // Use RTTI in debug builds to verify pointers to abstract types
@@ -136,7 +139,7 @@ namespace fm {
     // NOTE: this is MicroSoft code
     //
     template <class TypeFrom, class TypeTo>
-		inline
+		__forceinline
     TypeTo *checked_cast(TypeFrom *p)
     {
         ASSERT(dynamic_cast<TypeTo *>(p));
@@ -248,6 +251,50 @@ static  __DBJSYS_FM_LIB_INITOR__	__dbjsys_fm_lib_initor__ ;
 // words "error" or "warning" in your reminders, since it will make
 // the compiler think it should abort execution.  You can double click
 // on these fine messages and jump to the line in question.
+
+//--------------------------------------------------------------------------------
+namespace dbjsys {
+	namespace fm {
+		//--------------------------------------------------------------------------------
+		void switchErrLog(const wchar_t * name, const int appendLog);
+		static const unsigned volatile int APPEND_TO_LOG = 1;
+
+		//--------------------------------------------------------------------------------
+		__DBJSYS_FM_LIB_INITOR__::__DBJSYS_FM_LIB_INITOR__()
+		{
+			// use and increment
+			if (counter_++ == 0)
+			{
+				switchErrLog(::dbjsys::glob::DFLT_LOG_FILE(), APPEND_TO_LOG);
+
+			}
+		}
+		__DBJSYS_FM_LIB_INITOR__::~__DBJSYS_FM_LIB_INITOR__()
+		{
+			// decrement annd use
+			if (--counter_ == 0)
+			{
+				using namespace std;
+				// IOSTREAM OBJECTS
+				cout.flush();
+				cerr.flush();
+				clog.flush();
+				// WIDE IOSTREAM OBJECTS
+				wcout.flush();
+				wcerr.flush();
+				wclog.flush();
+			}
+		}
+
+#pragma comment(exestr, "DBJ*FM++ (c) 1997 - 2015 by DBJ Ltd.")
+#pragma comment(exestr, "DBJ*FM++ (c) 2010 - 2015 by DBJ.ORG ")
+#pragma warning( disable : 4073 ) 
+#pragma init_seg( lib )
+		long __DBJSYS_FM_LIB_INITOR__::counter_ = 0;
+		//--------------------------------------------------------------------------------
+	}
+}
+//--------------------------------------------------------------------------------
 
 //----------------------------------------------------------------
 #endif // dbj52268636_C3F6_4a93_A980_EC41CAA85FF6

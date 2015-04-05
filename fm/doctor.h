@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -73,7 +73,7 @@ struct doctor {
 	// 
     static const wchar_t * TITLE() { return L"DBJ FM Message" ; }
 	// 
-	static const wchar_t *	_swprintf ( wchar_t *, const wchar_t *, const wchar_t *, const wchar_t *);
+	static const wchar_t *	_swprintf ( wchar_t *, const wchar_t *, const wchar_t *, const wchar_t *, unsigned int );
 	// 
 	static const wchar_t *	title () ;
 	// 
@@ -149,31 +149,17 @@ inline const wchar_t * doctor::title ()
 }
 //--------------------------------------------------------------------------------
 //
-/*
-Warning	4	warning C4996 : 'swprintf' : swprintf has been changed to conform with the ISO C standard, 
-adding an extra character count parameter.
-To use traditional Microsoft swprintf, set _CRT_NON_CONFORMING_SWPRINTFS
-*/
-#if ! defined(_CRT_NON_CONFORMING_SWPRINTFS)
-#define _CRT_NON_CONFORMING_SWPRINTFS
-#endif
-/*
-Warning	5	warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. 
-To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details
-*/
-#if ! defined(_CRT_SECURE_NO_WARNINGS)
-#define _CRT_SECURE_NO_WARNINGS
-#endif
 //
-inline const wchar_t * doctor::_swprintf ( wchar_t * res, const wchar_t * fmt , 
-					 const wchar_t * a1, const wchar_t * a2)
+inline const wchar_t * doctor::_swprintf(wchar_t * res, const wchar_t * fmt,
+					 const wchar_t * a1, const wchar_t * a2, unsigned int bufsize_ = BUFSIZ)
 {
-	if ( ! ::swprintf(res, fmt, a1 , a2 )) 
-			(void)wcscpy(res, doctor::NEMMSG() ) ;
+	if ( ! ::swprintf(res, bufsize_, fmt, a1 , a2  )) 
+		(void)wcscpy_s(res, bufsize_, doctor::NEMMSG());
 		return res ;
 }
 //--------------------------------------------------------------------------------
 //
+// TODO to be removed and merged with another version of the same function in algo.h!
 //
 inline void doctor::MBox ( const wchar_t * m , const wchar_t * prompt, int breakOption )
 {
@@ -204,6 +190,7 @@ inline void doctor::MBox ( const wchar_t * m , const wchar_t * prompt, int break
 }
 
 //--------------------------------------------------------------------------------
+// TODO also to be removed and to use errortplt.h
 inline _bstr_t doctor::errstring ()
 {
 	DWORD lastErrorCode = ::GetLastError() ;

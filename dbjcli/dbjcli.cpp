@@ -9,6 +9,7 @@
 // include the FM++
 #include "../fm/cmdline.h"
 #include "../fm/errortplt.h"
+#include "../fm/algo.h"
 
 namespace dbj {
 	namespace con {
@@ -81,6 +82,7 @@ namespace dbj {
 int wmain(int argc, wchar_t ** argv)
 {
 	using namespace dbj;
+	using namespace dbjsys;
 
 	try {
 		con::set_consoledisplaymode(con::CONSOLE_MODE::WINDOWED);
@@ -88,9 +90,7 @@ int wmain(int argc, wchar_t ** argv)
 
 		con::set_color(con::STD_COLOR::C13);
 
-		using namespace dbjsys;
-
-		auto module_name = dbjsys::fm::clargument();
+		auto module_name = fm::clargument();
 
 		// extractor of string command line argument
 		// with default value to be used if no tag exist
@@ -100,12 +100,12 @@ int wmain(int argc, wchar_t ** argv)
 
 		auto trained = fm::clargument(L"-trained", false);
 	}
-	catch (dbj::con::DBJ_CON::Err & dbj_con_err_ ){
+	catch (::dbj::con::Err & dbj_con_err_ ){
 
 		dbj_con_err_.report(true);
 	}
 		catch (...){
-        		dbjsys::fm::DBJSYSError::err_msg_box("Unhandled Exception");
+        		fm::DBJSYSError::err_msg_box("Unhandled Exception");
 	}
 
 	return 0;

@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -23,7 +23,7 @@ namespace dbjsys {
         struct FakeLock 
         {
 	// 
-            FakeLock( const dbjsys::fm::ScopeLocker & ) {}
+            FakeLock( const ScopeLocker & ) {}
 	// 
            ~FakeLock(  ) {}
         } ;
@@ -37,11 +37,11 @@ template < class T, class LOCK = FakeLock >
 class thread_map
 {
         public:
-                typedef dbjsys::fm::Error< thread_map<T> > Err ;
+                typedef Error< thread_map<T> > Err ;
                 typedef std::map< DWORD, T *, std::less<DWORD> > MAP ;
         private:
                 MAP threadMap_ ;
-                dbjsys::fm::ScopeLocker cs_ ;
+                ScopeLocker cs_ ;
 
 				const void is_thread_still_active( const DWORD & threadID_ ) const
 				{
@@ -117,7 +117,7 @@ class thread_map
             clearAll() ;
         } catch ( ... ) {
             #if defined( _DEBUG )
-            std::clog << "\nUnknown Exception in ~thread_map(): " << __FILE__ << "@" << __LINE__ ;
+            std::wclog << L"\nUnknown Exception in ~thread_map(), in file: " << __FILE__ << L", at line: " << __LINE__ ;
             #endif
         }
     }
@@ -156,9 +156,9 @@ class tBaseSingleton
 protected:
 	typedef std::list<T>  itemlist_type ;
 	// 
-    static dbjsys::fm::ScopeLocker & cs()
+    static ScopeLocker & cs()
     {
-        static dbjsys::fm::ScopeLocker cs_ ;
+        static ScopeLocker cs_ ;
         return cs_ ;
     }
 

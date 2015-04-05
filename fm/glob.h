@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -15,26 +15,36 @@
 //  $Revision: $
 //*****************************************************************************/
 
-#if ! defined ( DBJ_GLOBALS_H_ )
-#define DBJ_GLOBALS_H_ 1
+#pragma once
 
 //--------------------------------------------------------------------------------
 namespace dbjsys {
 	// system wide globals
-    namespace glob {
-//--------------------------------------------------------------------------------
+	namespace glob {
+		//--------------------------------------------------------------------------------
 		// the rock bottom default log file name
-		 const wchar_t * const DFLT_LOG_FILE() ;
+		static const wchar_t * const DFLT_LOG_FILE() { return L"c:/DBJDBJ.log"; }
 		// the rock bottom default log folder name
-		 const wchar_t * const LOG_DIR() ;
+		static const wchar_t * const LOG_DIR() { return L"C:"; /* ::_wgetenv( L"WINDIR"); */ }
 		// the end of string
-		 const wchar_t EOS() ;
-		 const wchar_t * const dot() ;
-		 const wchar_t * const backSlash() ;
-		 const wchar_t * const forwardSlash() ;
-//--------------------------------------------------------------------------------
-    } //    namespace fm 
-} // namespace dbjsys 
-//--------------------------------------------------------------------------------
+		static const wchar_t EOS() { return (wchar_t)0; }
+		static const wchar_t * const  dot() { return L"."; }
+		static const wchar_t * const  backSlash() { return L"\\"; }
+		static const wchar_t * const  forwardSlash() { return L"/"; }
+		//--------------------------------------------------------------------------------
+		// moved after 2015 MAR
+		// If this envvar
+		static const wchar_t ENVVAR_NAME_DBJLOGSIZE[] = L"DBJLOGSIZE";
+		//is not currently set then this  value 
+		static const volatile long DBJLOGSIZE_MAX = 64 * 1024;
+		// will be used as maximum allowed size for the log file in the method bellow.
+		static const wchar_t * const  FMPP_NAME = L"Fm++";
+		static const wchar_t * const  FMPP_YEAR = L"2015";
+		static const wchar_t * const  FMPP_MJRR = L"1";
+		static const wchar_t * const  FMPP_MINR = L"0";
 
-#endif // ! defined ( DBJ_GLOBALS_H_ )
+		static const _bstr_t  FMPP_TITLE = FMPP_NAME + _bstr_t(FMPP_YEAR) + dot() + FMPP_MJRR + dot() + FMPP_MINR;
+
+		//--------------------------------------------------------------------------------
+	} //    namespace glob
+} // namespace dbjsys 

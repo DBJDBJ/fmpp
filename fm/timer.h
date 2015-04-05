@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -77,7 +77,7 @@ inline timer::timer( )
 {
 	//for ( register int j = 0 ; j < timebuflen_ ; timebuf_[j++] = 0 )
 	//{}
-	_ftime( &timebuffer );
+	_ASSERT(_ftime64_s( &timebuffer ));
 };
 
 //-----------------------------------------------------------------------
@@ -88,7 +88,7 @@ inline timer::timer( const _bstr_t & data_ )
 {
 	//for ( register int j = 0 ; j < timebuflen_ ; timebuf_[j++] = 0 )
 	//{}
-	_ftime( &timebuffer );
+	_ASSERT(_ftime64_s(&timebuffer));
 };
 
 
@@ -103,7 +103,7 @@ inline timer::~timer()
 	// user has given prompt with a '%s' to place the time inside it
 	{
 		wchar_t buff[ BUFSIZ * 4 ] = L""; 
-			swprintf( buff, prompt_, timebuf );
+		swprintf(buff, BUFSIZ * 4 , prompt_, timebuf);
 			ss_timer_display( buff ) ;
 	}
 	else // just append the time to the prompt
@@ -130,10 +130,11 @@ inline const _bstr_t & timer::elapsed_ ()
 
 	struct tm *newtime;
 
-	newtime = localtime( &newtimebuffer.time );
+	_ASSERT( localtime_s(newtime, &newtimebuffer.time));
 
-	wchar_t * buff = (wchar_t*)_alloca( (timebuflen_ * sizeof(wchar_t)) ) ;
-	swprintf( buff, L"%02d:%02d:%02d:%-3d",
+	_bstr_t buff(timebuflen_ * sizeof(wchar_t));
+
+	swprintf( buff, buff.length(), L"%02d:%02d:%02d:%-3d",
 		              newtime->tm_hour, 
 					  newtime->tm_min, 
 					  newtime->tm_sec, 
@@ -149,7 +150,7 @@ inline const _bstr_t & timer::elapsed_ ()
 inline const  _timeb timer::GetTimeElapsed()
 {
    struct _timeb newtimebuffer;
-	_ftime( &newtimebuffer );
+	_ASSERT(_ftime64_s( &newtimebuffer ));
 
 	if ( newtimebuffer.millitm >= timebuffer.millitm )
 	{

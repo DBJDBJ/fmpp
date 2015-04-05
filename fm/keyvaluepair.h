@@ -3,9 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #pragma once
 
-#if !defined(AFX_STRINGVALUEPAIR_H__842B53A4_C683_4E55_A100_108CF3935CF4__INCLUDED_)
-#define AFX_STRINGVALUEPAIR_H__842B53A4_C683_4E55_A100_108CF3935CF4__INCLUDED_
-
+#include "fm.h"
 //--------------------------------------------------------------------------------
 namespace dbjsys {
     namespace fm {
@@ -31,7 +29,7 @@ public:
     typedef container_type::value_type value_type ; // what we store in the container
     typedef container_type::key_type key_type ; // std::string
     typedef container_type::referent_type referent_type ; // std::string
-    typedef dbjsys::fm::Error<key_value_map> Err ;
+    typedef Error<key_value_map> Err ;
     
 	// 
     _bstr_t to_string( ) const ;
@@ -119,10 +117,10 @@ inline void key_value_map::from_string( const  _bstr_t  & str )
         for( btokenizer::size_t i = 0 ; i < tokens.size() ; i = i+2 )
         {
             key_type key  = tokens[i] ;
-            algo::stringtrim( key ) ;
+			algo::stringtrim(key);
 
             referent_type val  =  tokens[i+1]  ;
-            algo::stringtrim( val ) ;
+			algo::stringtrim(val);
 
             dbjVERIFY( key.length() > 0 );
             dbjVERIFY( val.length() > 0 );
@@ -194,4 +192,3 @@ inline void key_value_map::insert( const key_type& key, const referent_type & va
 } // namespace dbjsys 
 //--------------------------------------------------------------------------------
 
-#endif // !defined(AFX_STRINGVALUEPAIR_H__842B53A4_C683_4E55_A100_108CF3935CF4__INCLUDED_)

@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -124,11 +124,26 @@ namespace dbjsys {
 		}
 
 		//---------------------------------------------------------------------------------------
-		// the following to we only declare here. Definitions are in bstrex.cpp
-		// bstr_t to wostream
-		std::wostream & assign_from_bstr_t_ ( std::wostream & t_, const bstr_t & bstr ) ;
+		// 
+		// These definitions are here because they  are for type which are used by FM
+		// like std::wostream, std::wstring,etc.
+		// The defintions for types which are specific should be defined in the modules
+		// which are declaring those types. But in this same namespace.
+		//---------------------------------------------------------------------------------------
+		__forceinline
+		std::wostream & assign_from_bstr_t_(std::wostream & t_, const bstr_t & bstr)
+		{
+			return t_ << ((const wchar_t*)bstr);
+		}
 		// wostream to bstr_t -- a tricky one !
-		bstr_t & assign_from_bstr_t_ ( bstr_t & bstr, const std::wostream & t_) ;
+		__forceinline
+			bstr_t & assign_from_bstr_t_(bstr_t & bstr, const std::wostream & t_)
+		{
+			std::wostringstream wos;
+			wos << t_.rdbuf();
+			bstr += wos.str().c_str();
+			return bstr;
+		}
 
 		//------------------------------------------------------------------------
 		//

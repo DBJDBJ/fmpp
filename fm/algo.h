@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -20,7 +20,13 @@
 
 #pragma once
 
+#include <io.h>
+#include <errno.h>
+#include "fm.h"
+#include "glob.h"
+#include "timestamp.h"
 /*
+
 Warning	413	warning C4996: '_ftime64': This function or variable may be unsafe. 
 Consider using _ftime64_s instead. To disable deprecation, use 
 _CRT_SECURE_NO_WARNINGS. See online help for details.	
@@ -34,10 +40,13 @@ this call relies on the caller to check that the passed values are correct.
 To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. 
 See documentation on how to use Visual C++ 'Checked Iterators'
 
-*/
+actively remove the cosnequences vs using this macros
+
 #define _CRT_SECURE_NO_WARNINGS 1
 #define _CRT_NON_CONFORMING_SWPRINTFS 1
 #define _SCL_SECURE_NO_WARNINGS 1
+
+*/
 
 
 //--------------------------------------------------------------------------------
@@ -45,21 +54,24 @@ namespace dbjsys {
     namespace fm {
         namespace algo {
 //--------------------------------------------------------------------------------
-
+// Here we define Error<> handler that must be called Err
 // 
 			class NameSpace_algo{} ;
-				typedef Error<NameSpace_algo> Err ;
+			dbjMAKE_ERR(NameSpace_algo);
 //--------------------------------------------------------------------------------
 
 #if ! defined( npos )
-static const size_t npos = -1;
+static const size_t npos = (size_t)-1;
 #endif
 
 //--------------------------------------------------------------------------------
 /*
+One macro we do not want as a macro
+
 #define issign(c) ((c) == '+' ? 1 : ( (c) == '-' ? 1 : 0) ) 
+
 */
-inline bool issign ( wchar_t c )
+__forceinline bool issign ( const wchar_t & c )
 {
 	if ( c == L'+' ) 
 		return true ;
@@ -73,6 +85,11 @@ inline bool issign ( wchar_t c )
 //
 // this would work only for ANSI code
 //
+/*
+TODO
+this introduces dependancy on std
+reimplement using _bstr_t only
+*/
 template< typename T = std::string >
 class NocaseStrEqual : public std::equal_to<T> {
 public:
@@ -107,8 +124,11 @@ public:
                   (long)wcslen(lpString2)              // size of second string
         );
 
-       if( 0 == result )
-           throw DBJSYSError(dbjsys::fm::doctor::errstring() ) ;
+       //if( 0 == result )
+       //  throw DBJSYSError(dbjsys::fm::doctor::errstring() ) ;
+	  
+	   dbjVERIFY(result);
+
        return result == CSTR_EQUAL ;
     }
 
@@ -116,7 +136,8 @@ public:
 
 //----------------------------------------------------------------------------
 template< typename T >
-inline bool compareNoCase( const T & s1, const T & s2
+__forceinline 
+bool compareNoCase( const T & s1, const T & s2
                           /* , std::equal_to<std::string> & comparator =  NocaseStrEqual() */ 
                           ) 
 {
@@ -125,7 +146,8 @@ inline bool compareNoCase( const T & s1, const T & s2
 //----------------------------------------------------------------------------
 //
 //
-inline void stringtrim( _bstr_t & _bstr_arg )
+__forceinline 
+void stringtrim( _bstr_t & _bstr_arg )
 {
 	static const wchar_t SPACE_CHAR = L' ' ;
 
@@ -153,7 +175,13 @@ inline void stringtrim( _bstr_t & _bstr_arg )
 	_bstr_arg = s_.c_str() ;
 }
 //--------------------------------------------------------------
-inline int safeAtoi( const wchar_t * cstr_ , int & result_ )
+/*
+TODO 
+this is clever but ot necessary
+use _variant_t instead
+*/
+__forceinline
+ int safeAtoi( const wchar_t * cstr_ , int & result_ )
 {
 	static const int BAD = 0 , GOOD = ! BAD ;
 
@@ -184,10 +212,10 @@ inline int safeAtoi( const wchar_t * cstr_ , int & result_ )
 }
 //----------------------------------------------------------------------------
 //
+// TODO This definitely has to be replaced with cmdline class argv[0]
 //
-//
-
-inline std::wstring this_module_full_path( HMODULE this_module_handle = NULL )
+__forceinline
+ std::wstring this_module_full_path( HMODULE this_module_handle = NULL )
 {
 	wchar_t dllPath_[_MAX_PATH] = L"";
 	// this must match the name of the DLL!!!
@@ -229,18 +257,15 @@ inline std::wstring this_module_full_path( HMODULE this_module_handle = NULL )
 #endif
 }
 //----------------------------------------------------------------------------
-inline _bstr_t basenameNoExtension( const wchar_t * fullPath_ )
+__forceinline
+ _bstr_t basenameNoExtension( const wchar_t * fullPath_ )
 {
-	wchar_t result[_MAX_FNAME] ; // put enough space in
-	result[0] = L'\x00' ;
+	_bstr_t result = fullPath_ ; 
+	result = L"" ;
 	if ( fullPath_ == 0 ) return result ;
-	if ( fullPath_[0] == result[0] ) return result ;
 
-	// second copy the argument to the 'result'
-    const wchar_t * rtn = wcsncpy( result, fullPath_, _MAX_FNAME ) ;
-	_ASSERT( rtn ) ;
 	// point the 'walker' to the end of the argument given
-	wchar_t * walker = wcschr( result, dbjsys::glob::EOS()) ; 
+	wchar_t * walker = wcschr( (wchar_t *)result, dbjsys::glob::EOS()) ; 
 	// do until found first slash or backslash going from right
 	// or not reached the left end
 	do
@@ -267,9 +292,13 @@ inline _bstr_t basenameNoExtension( const wchar_t * fullPath_ )
 }
 //----------------------------------------------------------------------------
 //
+// clever but should be replaced with  _bstr_t(_variant_t(l))
 //
-inline const wchar_t * ltocstr ( const long l )
+__forceinline
+const _bstr_t ltocstr ( const long l )
 {
+	return _bstr_t(_variant_t(l));
+#if CLEVER_BUT_USELESS
 	static wchar_t digitstring[] = 
 	{ L'0', L'1', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9' } ;
 
@@ -293,6 +322,7 @@ inline const wchar_t * ltocstr ( const long l )
 	memset( buf,0, (34 * sizeof(wchar_t) ) ) ;
 	_ltow( l , buf , 10 ) ;
 	return buf ;
+#endif
 }
 //----------------------------------------------------------------------------
 //+
@@ -305,7 +335,7 @@ inline const wchar_t * ltocstr ( const long l )
 //-----------------------------------------------------------------------------
 //-
 //FNC//
-inline const void errBox ( const wchar_t * format_, ... )
+__forceinline const void errBox(const wchar_t * format_, ...)
 {
 	static const unsigned MSG_BUF_SIZ = BUFSIZ * 4 ;
 
@@ -324,7 +354,7 @@ inline const void errBox ( const wchar_t * format_, ... )
     {
         va_list argptr_ ;
         va_start( argptr_, format_ ) ;
-        dbjVERIFY ( vswprintf ( buf_, format_, argptr_ ) > 0 ) ;
+		dbjVERIFY(vswprintf(buf_, MSG_BUF_SIZ, format_, argptr_) > 0);
         va_end( argptr_ ) ;
     }
         	buf_[wcslen(buf_)] = L'\x00' ;
@@ -353,14 +383,15 @@ inline const void errBox ( const wchar_t * format_, ... )
     }
 }// end of errBox
 //------------------------------------------------------------------------
-inline void display_ ( const std::exception & e )
+// dependancy on std can be removed here
+__forceinline void display_(const std::exception & e)
 {
   	algo::errBox( L"%s", e.what() ) ;
 }
 //------------------------------------------------------------------------
 // this ostream manipulator prints a current time stamp in a 'nice' format
 /*
-inline std::ostream & current_time ( std::ostream & os )
+__forceinline std::ostream & current_time ( std::ostream & os )
 {
 struct tm	*newtime = 0 ;
 time_t		 aclock;
@@ -370,47 +401,39 @@ time_t		 aclock;
 }
 */
 // UNICODE version
-inline std::wostream & current_time ( std::wostream & os )
+__forceinline std::wostream & current_time(std::wostream & os)
 {
 struct tm	*newtime = 0 ;
 time_t		 aclock;
+wchar_t      buffer[BUFSIZ];
    time( &aclock );                 /* Get time in seconds */
-   newtime = localtime( &aclock );  /* Convert time to struct tm form */
-   return os << _wasctime( newtime ) ;/* Print local time as a w-string */
+   _ASSERTE( localtime_s( newtime, &aclock ));  /* Convert time to struct tm form */
+   _ASSERTE(_wasctime_s(buffer,BUFSIZ, newtime));
+   return os << buffer;/* Print local time as a w-string */
 }
 
 //----------------------------------------------------------------------------
 // 010198	DBJ		Changed '.log' to be '.htm'
 //
-inline const wchar_t * makeLogFileName ( const wchar_t * fname ) 
+__forceinline const wchar_t * makeLogFileName(const wchar_t * fname)
 {
 	static const    wchar_t    LOGEXTENSION[]       = L".log" ;
-	static          wchar_t    result_[_MAX_PATH]   = L"" ; 
-	static          wchar_t    bname_ [_MAX_PATH]   = L"" ; 
+	static          _bstr_t    result_              = L"" ; 
+	static          _bstr_t    bname_               = L"" ; 
 
-	if ( ( fname == 0 ) || ( fname[0] == L'\x0' ) )
+	result_ = L"";	bname_ = L"";
+
+	if ((fname == 0) || (fname[0] == L'\x0'))
 	{
-
-        const wchar_t * rtn = wcsncpy( bname_, dbjsys::glob::DFLT_LOG_FILE(), _MAX_PATH ) ;
-        _ASSERT( rtn ) ;
+		bname_ = glob::DFLT_LOG_FILE();
 	}
 	else {
-
-		const wchar_t * rtn = wcsncpy( bname_, algo::basenameNoExtension(fname), _MAX_PATH );
-        _ASSERT( rtn ) ;
+		bname_ = algo::basenameNoExtension(fname);
 	}
 
-	if ( 0 == 
-		swprintf( result_ , L"%s%s%s%s", dbjsys::glob::LOG_DIR(),
-			L"\\", bname_, LOGEXTENSION )
-		)
-	{
-		// thus MUST not happen, but ...
-        const wchar_t * rtn = wcsncpy( result_, dbjsys::glob::DFLT_LOG_FILE(), _MAX_PATH ) ;
-		_ASSERT( rtn ) ;
-	}
+	result_ = glob::LOG_DIR(); result_ += L"\\" + bname_ + LOGEXTENSION;
 
-	return result_ ;
+	return result_;
 }
 
 //----------------------------------------------------------------------------
@@ -418,7 +441,7 @@ inline const wchar_t * makeLogFileName ( const wchar_t * fname )
 //----------------------------------------------------------------------------
 //
 //
-inline void string2args( int & argc, wchar_t ** & argv, const std::wstring & str_ ) 
+__forceinline void string2args( int & argc, wchar_t ** & argv, const std::wstring & str_ ) 
 {
 wchar_t *	strVal	= _wcsdup(str_.c_str()) ;
 wchar_t	seps[]  = { L' ', L'\x00' } ;
@@ -452,7 +475,7 @@ std::vector<std::wstring> sstore_ ;
 //----------------------------------------------------------------------------
 //
 //
-inline void releaseargs( int argc, wchar_t ** & argv ) 
+__forceinline void releaseargs( int argc, wchar_t ** & argv ) 
 {
 try {
    for ( register int j = 0 ; j < argc ; j++ )
@@ -478,7 +501,7 @@ catch (...)
 // get the version info of one specific field from the resource
 //-----------------------------------------------------------------------------
 //
-inline static HRSRC getVersionInfoField ( LPCTSTR lpName, HMODULE hModule )
+__forceinline static HRSRC getVersionInfoField ( LPCTSTR lpName, HMODULE hModule )
 {
 	LPCTSTR lpType		=	_T("RT_VERSION") ;
 	WORD	wLanguage	=	MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL) ;
@@ -498,7 +521,7 @@ return result ;
 
 //-----------------------------------------------------------------------------
 // Get
-inline void getVersionInfo ( const wchar_t * lpModuleName /* = _T("dbjfm.lib") */ )
+__forceinline void getVersionInfo ( const wchar_t * lpModuleName /* = _T("dbjfm.lib") */ )
 {
 	HGLOBAL resH		=	NULL ;
 	HMODULE hModule		=	NULL ;
@@ -559,8 +582,8 @@ VerQueryValue(pBlock,
 
 #endif // DBJ_VERSIONNING
 
-
-inline _bstr_t d2string_ ( const double dn_ )
+/* of course ... */
+__forceinline _bstr_t d2string_(const double & dn_)
 {
 	_variant_t var = dn_ ;
 	return var ;
@@ -570,8 +593,130 @@ inline _bstr_t d2string_ ( const double dn_ )
 } ; // eof namespace algo
 ////////////////////////////////////////////////////////////////////////////////////////
 
+
 template< typename T >
-inline const bool EMPTY_CSTR( const T * const X ) { return ((X==NULL) && (X[0] == 0)) ; }
+__forceinline const bool EMPTY_CSTR(const T * const X) { return ((X == NULL) && (X[0] == 0)); }
+
+
+
+//-----------------------------------------------------------------------------
+__forceinline long wstr2long(wchar_t * wstr_) {
+	long result = 0L;
+	if (!wstr_) return result;
+	try {
+		result = (long)variant_t(wstr_);
+	}
+	catch (const _com_error & ) { result = 0L; /* conversion error */ }
+	return result;
+}
+/*
+TODO move this to WIN part 
+*/
+const wchar_t * envvar(const wchar_t * env_var_name_)
+{
+	static size_t bufsiz = BUFSIZ;
+	static wchar_t * buffer[BUFSIZ];
+	*buffer = L"";
+	_ASSERT(_wdupenv_s(buffer, &bufsiz, env_var_name_));
+	return *buffer;
+}
+//-----------------------------------------------------------------------------
+// TODO constants and literals definitely to be moved to a separate single structure
+// which exist and is called dbjsys::glob!
+
+static bool cut_down_to_size(int logfile_handle_)
+{
+	bool was_downsized = false;
+	
+	const _bstr_t log_size_env_var = envvar(glob::ENVVAR_NAME_DBJLOGSIZE);
+
+	long allowed_size_ = wstr2long(log_size_env_var);
+
+	if (!allowed_size_) // envvar not  set
+		allowed_size_ = glob::DBJLOGSIZE_MAX;
+
+	if (_filelength(logfile_handle_) > allowed_size_)
+	{
+		if (-1 == _chsize(logfile_handle_, 0))
+			switch (errno)
+		{
+			case EACCES:
+				_ASSERT(!L"the specified file is locked against access");
+			case EBADF:
+				_ASSERT(!L"the specified file is read-only or the handle is invalid");
+			case ENOSPC:
+				_ASSERT(!L"no space is left on the device");
+			default:
+				_ASSERT(!L"unknown  error");
+		}
+		was_downsized = true;
+	}
+	/*
+	_chsize returns the value 0 if the file size is successfully changed.
+	A return value of -1 indicates an error: errno is set to EACCES if the specified
+	file is locked against access, to EBADF if the specified file is read-only or
+	the handle is invalid, or to ENOSPC if no space is left on the device.
+	*/
+	return was_downsized;
+}
+//-----------------------------------------------------------------------------
+//
+// Use this to switch 'cerr','stderr','clog' and 'wclog' output
+// to file of your choice
+// called with no arg's uses the default log file name
+// Uses propmpt() to mark new log beginning
+//
+// 190997   JovanovD
+// 070198   JovanovD	    added HTML header 
+// 161100   DBJ             std::clog and std::wclog are streaming into stderr
+//
+// 040415   DBJ				Definite legacy function ... serious reqork needed
+//
+extern "C" void switchErrLog(const _bstr_t & name, const int appendLog)
+{
+	_bstr_t  fullpath = algo::makeLogFileName(name.length() > 1 ? name : glob::DFLT_LOG_FILE() );
+
+	FILE * errLog = 0;
+	errno_t error_num = 0;
+
+	if (0 == appendLog)
+	{
+		error_num = _wfreopen_s(&errLog, fullpath, L"w+", stderr);
+	}
+	else
+	{
+		error_num = _wfreopen_s(&errLog, fullpath, L"a+", stderr);
+	}
+
+	if ( error_num != 0 || (FILE*)0 == errLog )
+	{
+		_wperror((const wchar_t *)_bstr_t(__FILE__ " : freopen() failed, at line: ") + __LINE__);
+	}
+
+	set_prompt_stream(std::wclog);
+
+	if (
+		(0 == appendLog) ||
+		(cut_down_to_size(_fileno(stderr)))
+		)
+	{
+		prompt(L"=", 79);
+		prompt(glob::FMPP_TITLE);
+		prompt(L"=", 79);
+		prompt(L"LOG FILE ", L":", 0) << fullpath;
+		prompt(L"=", 79);
+		prompt(L"Timestamp: ") << static_cast<const wchar_t *>(_bstr_t(__TIMESTAMP__));
+	}
+	prompt(L"-", 79);
+
+   Timestamp;
+
+	prompt(L"LOG START", 0, 0) << L", Module : " << algo::this_module_full_path()
+		<< L", " << algo::current_time << std::endl;
+
+	reset_prompt_stream();
+
+}
 
 //--------------------------------------------------------------------------------
     } //    namespace fm 

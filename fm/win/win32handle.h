@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -18,6 +18,12 @@
 
 #pragma once
 
+#include "../fm.h"
+/*
+
+TODO			Can we do invalid handle here?
+
+*/
 namespace dbjsys {
 	namespace fm {
 
@@ -39,7 +45,7 @@ namespace dbjsys {
 
         Win32Handle & operator = ( const Win32Handle & rhs ) {
             if( this != &rhs )
-                handle_ = duplicate_handle( other.handle_ ) ;
+				handle_ = duplicate_handle(rhs.handle_);
 
             return *this ;
         }

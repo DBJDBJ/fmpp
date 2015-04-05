@@ -9,7 +9,7 @@ namespace dbjsys
         class SCMQuery
         {
         public:
-            typedef dbjsys::fm::Error< SCMQuery > Err;
+            typedef Error< SCMQuery > Err;
             typedef enum STATUS
             {
                 NotInstalled, Stopped, Running
@@ -92,7 +92,7 @@ namespace dbjsys
 
             if ( NULL == scHandle_  )
             {
-                    dbjTHROWERR( dbjsys::fm::doctor::errstring() ) ;
+                    dbjTHROWERR( doctor::errstring() ) ;
             }
         }
 
@@ -115,7 +115,7 @@ namespace dbjsys
                     return false ;
                 else
                 { 
-                    dbjTHROWERR( dbjsys::fm::doctor::errstring() ) ;
+                    dbjTHROWERR( doctor::errstring() ) ;
                 }
             }
 
@@ -134,7 +134,7 @@ namespace dbjsys
 
                 if ( ! qStatus_ ) 
                 { 
-                    dbjTHROWERR( dbjsys::fm::doctor::errstring() ) ;
+                    dbjTHROWERR( doctor::errstring() ) ;
                 }
 
                 switch( status_[0].dwCurrentState  )

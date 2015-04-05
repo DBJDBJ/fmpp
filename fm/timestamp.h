@@ -2,7 +2,7 @@
 //
 //                  
 //
-//                 Copyright (c)  2000 - 2010 by Dusan B. Jovanovic (dbj@dbj.org) 
+//                 Copyright (c)  1997 - 2015 by Dusan B. Jovanovic (dbj@dbj.org) 
 //                          All Rights Reserved
 //
 //        THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Dusan B. Jovanovic (dbj@dbj.org)
@@ -37,6 +37,7 @@ protected :
 	wchar_t val_[vallen_] ;
 	//
 public :
+	dbjMAKE_ERR(Timestamp);
 	//
 	// 
 	Timestamp () { setval_(val_); }
@@ -45,12 +46,12 @@ public :
 	~Timestamp() { val_[0] = L'\x00' ; }
 	//
 	// 
-	Timestamp ( const Timestamp & other_ ) {  wcscpy( val_, other_.val_  ) ; }
+	Timestamp(const Timestamp & other_) { wcscpy_s(val_, vallen_, other_.val_); }
 	//
 	// 
 	Timestamp & operator = ( const Timestamp & other_ ) 
 	{
-		if ( this != &other_ ){  wcscpy( val_, other_.val_ ) ; }
+		if ( this != &other_ ){  wcscpy_s( val_, vallen_, other_.val_ ) ; }
 		return *this ;
 	}
 	//
@@ -88,7 +89,7 @@ L"99", (const wchar_t *)0
 				aclock = time_argument ; // use UD time
 	}
 
-	newtime = localtime( &aclock );  // Convert time to struct tm form 
+    dbjVERIFY(localtime_s(newtime, &aclock));  // Convert time to struct tm form 
 
 	// This will cause a crash if century is larger than 99!!!
     // But don't forget time(time_t * t) will fail lot sooner than that!!!
