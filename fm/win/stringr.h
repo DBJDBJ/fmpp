@@ -18,15 +18,60 @@
 // 14102000 DBJ Created
 //////////////////////////////////////////////////////////////////////
 
+//--------------------------------------------------------------------
+#pragma once
 #if _MSC_VER < 1200
 #error This code must be compiled using Visual C++ version 6.0 or better.
 #endif
 //--------------------------------------------------------------------
-#pragma once
-//--------------------------------------------------------------------
 namespace dbjsys {
     namespace fm {
 //--------------------------------------------------------------------
+		class loadablestring_string
+		{
+		public:
+			dbjMAKE_ERR(loadablestring_string);
+
+			typedef _bstr_t String_type;
+			//
+			// load from resource and return const reference to self
+			// CAUTION: current content is lost after sucesfull load
+			static _bstr_t load(unsigned int id_)
+			{
+				TCHAR arr[BUFSIZ];
+				_bstr_t buf(arr);
+
+				if (!
+					::LoadString((HINSTANCE)NULL, (UINT)id_, (TCHAR*)buf, buf.length())
+					)
+				{
+					Win32Error<loadablestring_string>::report_only(::GetLastError(), __FILE__, __LINE__);
+					buf = "";
+				}
+
+				return buf;
+			}
+
+			loadablestring_string( unsigned int id_) {
+				buffer_ = load(id_);
+			}
+			virtual ~loadablestring_string() {
+				buffer_ = "";
+			}
+			//
+			operator const String_type & () const { return this->buffer_; }
+		private:
+			/* forbidden operations */
+			loadablestring_string() {}
+			loadablestring_string(loadablestring_string  &) { }
+			loadablestring_string  & operator = (loadablestring_string  &) { }
+			//
+			_bstr_t buffer_;
+		};
+/****************************************************************************************************************
+deliberately left this in so that it can be compared to _bstr_t version
+*/
+#if (!1)
 template< class STRING >
 class loadablestring_base : public STRING
 {
@@ -97,12 +142,11 @@ public :
     }
 } ;
 //-----------------------------------------------------------------------
+#endif // !1
+//-----------------------------------------------------------------------
+#define loadablestring_testing
 #ifdef loadablestring_testing
 //-----------------------------------------------------------------------
-inline void showresult ( const std::wstring & ws )
-{
-   prompt(L"\nUNICODE string: [") << ws << L"]" ;
-}
 inline void showresult ( const std::string & ss )
 {
    using namespace dbjsys::fm::bstrex;
@@ -113,21 +157,12 @@ inline void showresult ( const std::string & ss )
 inline void stringRtest ( unsigned int IDS )
 {
 	//------------------------------------
-    stringr asciiR(IDS) ;
-    std::string & ascii = asciiR ;
-    showresult( ascii  ) ;
-    // asciiR = "From string to stringr does not work" ;
-    // string resource semantics are read-only
-    showresult( asciiR ) ;
+	loadablestring_string ls_(IDS);
+
+	prompt(L"\nLoaded string  id: [") << IDS << L"]" <<  (bstr_t &)ls_ ;
+	
     //
-    wstringr unicodeR(IDS) ;
-    std::wstring & unicode = unicodeR ;
-    showresult( unicode  ) ;
-    // (std::wstring)unicodeR = L"From wstring to wstringr does not work"  ;
-    // string resource semantics are read-only
-    showresult( unicodeR ) ;
-    //
-    stringr(0) ; // throws runtime_error
+	_bstr_t ls2 = loadablestring_string::load(0); // runtime_error
     //
 }
 //--------------------------------------------------------------------
