@@ -37,7 +37,7 @@ interface IEvLog {
 	// dbjMAKE_ERR(IEvLog) ;
 	// dbj_ERR(SomeSpecificLogicalError) ;
 
-	typedef Win32Error<IEvLog> W32Err ;
+	typedef Win32Error<IEvLog> Err ;
 
 	//-------------------------------------------------------------
 	virtual void backupEventLog				
@@ -213,7 +213,7 @@ interface IEvLog {
 		class Writer
 		{
 		public:
-			typedef IEvLog::W32Err W32Err ;
+			typedef IEvLog::Err Err ;
 
 			Writer( const _bstr_t & source_name, const _bstr_t & server_name ) ;
 			Writer( const Writer & other ) ;
@@ -236,7 +236,7 @@ interface IEvLog {
 		class Reader
 		{
 		public:
-			typedef IEvLog::W32Err W32Err ;
+			typedef IEvLog::Err Err ;
 
 			Reader( const _bstr_t & source_name, const _bstr_t & server_name ) ;
 			Reader( const Reader & other ) ;
@@ -307,7 +307,7 @@ interface IEvLog {
 namespace dbjsys {
 	namespace fm {
 
-		typedef IEvLog::W32Err Err;
+		typedef IEvLog::Err Err;
 
 		// class that takes care of closing a registry key
 		// 
@@ -493,9 +493,9 @@ namespace dbjsys {
 			{
 				log_writer_->report(event);
 			}
-			catch (Writer::W32Err & e)
+			catch (Writer::Err & e)
 			{
-				dbjTHROWERR(e.what());
+				throw e.what();
 			}
 		}
 
