@@ -338,6 +338,14 @@ void __dbj_throw__ ( const _bstr_t &  msg, const _bstr_t &  file, const int line
         throw T(msg,file,line) ;
 }
 //	----------------------------------------------
+template < class T > 
+inline
+void __dbj_throw__(const _bstr_t &  msg, const _bstr_t &  file, const int line, Win32Error<T> *)
+{
+	// effectively rectify the mistakes of ussing Win32Error when Error<> should be enough
+	throw Error<T>(msg, file, line);
+}
+//	----------------------------------------------
 /*
 template < class T > inline
 void __dbj_throw__ ( const _bstr_t & msg, const char * file, const int line, T * )
