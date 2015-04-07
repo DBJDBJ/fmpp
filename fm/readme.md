@@ -8,7 +8,7 @@ This is exclusively Windows C++ API product, built with Microsoft Visual C++ com
 - To use this lib add the path to this folder and include "fm.h" 
 - There is no lib or dll. Everything is in headers. 
 - Only UNICODE apps may be built with DBJ*FM++ 
-- TCHAR.H, is NOT included. FM++ is using _bstr_t and wchar_t everywhere. 
+- Fm++ is using _bstr_t, _varinat_t and wchar_t everywhere. 
 - Almost all non-trivial mechanisms have testing (fancy term "units"), at the bottom of their headers. The code is not part of the compilation unless #defines to compile them in,
 are defined, in application using the FM++. 
 
