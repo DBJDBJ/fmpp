@@ -1,6 +1,0 @@
-// event_log.cpp: implementation of the event_log class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "../fm.h"
-#include "event_log.h"
-

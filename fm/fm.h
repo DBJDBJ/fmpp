@@ -14,9 +14,6 @@
 //	Library of Foundation Mechanisms
 #pragma once
 //----------------------------------------------------------------
-#if ! defined( dbj52268636_C3F6_4a93_A980_EC41CAA85FF6 )
-#define dbj52268636_C3F6_4a93_A980_EC41CAA85FF6 1
-//----------------------------------------------------------------
 /*
 Warning	413	warning C4996: '_ftime64': This function or variable may be unsafe. 
 Consider using _ftime64_s instead. To disable deprecation, use 
@@ -32,15 +29,10 @@ To disable this warning, use -D_SCL_SECURE_NO_WARNINGS.
 See documentation on how to use Visual C++ 'Checked Iterators'
 
 */
+//////////////////////////////////////////////////////////////////////////////////
 #define _CRT_SECURE_NO_WARNINGS 1
 #define _CRT_NON_CONFORMING_SWPRINTFS 1
 #define _SCL_SECURE_NO_WARNINGS 1
-//////////////////////////////////////////////////////////////////////////////////
-#if defined _DEBUG
-#pragma comment( lib, "dbj_fmdbg.lib"  ) 
-#else
-#pragma comment( lib, "dbj_fm.lib"  ) 
-#endif  // _DEBUG
 //////////////////////////////////////////////////////////////////////////////////
 #include "configuration.h" 
 //////////////////////////////////////////////////////////////////////////////////
@@ -212,28 +204,6 @@ namespace fm {
 #include "com/filestream.h"
 
 //----------------------------------------------------------------
-
-namespace dbjsys {
-namespace fm {
-
-
-// 
-	struct  __DBJSYS_FM_LIB_INITOR__ 
-	{
-	// 
-		static long counter_;
-
-
-	// 
-		__DBJSYS_FM_LIB_INITOR__ () ;
-	// 
-		~__DBJSYS_FM_LIB_INITOR__ () ;
-	} ;
-
-static  __DBJSYS_FM_LIB_INITOR__	__dbjsys_fm_lib_initor__ ;
-
-}
-}
 //----------------------------------------------------------------
 // USE THIS TO PUT TEMPORARY REMINDER COMMENTS
 // The following silliness is explained in just a few lines... Read on.
@@ -256,8 +226,20 @@ static  __DBJSYS_FM_LIB_INITOR__	__dbjsys_fm_lib_initor__ ;
 namespace dbjsys {
 	namespace fm {
 		//--------------------------------------------------------------------------------
-		void switchErrLog(const wchar_t * name, const int appendLog);
+		// void switchErrLog(const wchar_t * name, const int appendLog);
 		static const unsigned volatile int APPEND_TO_LOG = 1;
+		// 
+		struct  __DBJSYS_FM_LIB_INITOR__
+		{
+			// 
+			static long counter_;
+			// 
+			__DBJSYS_FM_LIB_INITOR__();
+			// 
+			~__DBJSYS_FM_LIB_INITOR__();
+		};
+
+		static  __DBJSYS_FM_LIB_INITOR__	__dbjsys_fm_lib_initor__;
 
 		//--------------------------------------------------------------------------------
 		__DBJSYS_FM_LIB_INITOR__::__DBJSYS_FM_LIB_INITOR__()
@@ -286,17 +268,13 @@ namespace dbjsys {
 			}
 		}
 
-#pragma comment(exestr, "DBJ*FM++ (c) 1997 - 2015 by DBJ Ltd.")
-#pragma comment(exestr, "DBJ*FM++ (c) 2010 - 2015 by DBJ.ORG ")
-#pragma warning( disable : 4073 ) 
-#pragma init_seg( lib )
+//#pragma comment(exestr, "DBJ*FM++ (c) 1997 - 2015 by DBJ Ltd.")
+//#pragma comment(exestr, "DBJ*FM++ (c) 2010 - 2015 by DBJ.ORG ")
+//#pragma warning( disable : 4073 ) 
+//#pragma init_seg( lib )
 		long __DBJSYS_FM_LIB_INITOR__::counter_ = 0;
 		//--------------------------------------------------------------------------------
 	}
 }
 //--------------------------------------------------------------------------------
-
-//----------------------------------------------------------------
-#endif // dbj52268636_C3F6_4a93_A980_EC41CAA85FF6
-//----------------------------------------------------------------
 

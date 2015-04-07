@@ -326,16 +326,16 @@ template<class T> class Win32Error : public Error<T>
 	*/
 // transform class _com_error to DBJSYSError ;
 template < class T > inline
-void __dbj_throw__ ( const _com_error & e, const _bstr_t & file, const int line , T * )
+void __dbj_throw__ ( const _com_error & e, const _bstr_t & file, const int line , Error<T> * )
 {
-        throw T( dbjsys::fm::getErrMsg( e ),file,line) ;
+        throw Error<T>( dbjsys::fm::getErrMsg( e ),file,line) ;
 }
 //	----------------------------------------------
 // construct desired DBJSYSError inheritor
 template < class T > inline
-void __dbj_throw__ ( const _bstr_t &  msg, const _bstr_t &  file, const int line, T * )
+void __dbj_throw__(const _bstr_t &  msg, const _bstr_t &  file, const int line, Error<T> *)
 {
-        throw T(msg,file,line) ;
+	throw Error<T>(msg, file, line);
 }
 //	----------------------------------------------
 template < class T > 
@@ -358,9 +358,9 @@ void __dbj_throw__ ( const _bstr_t & msg, const char * file, const int line, T *
 This in effect transforms std::exception to DBJSYSError
 */
 template < class T > inline
-void __dbj_throw__ ( const std::exception & msg, const char * file, const int line, T * )
+void __dbj_throw__(const std::exception & msg, const char * file, const int line, Error<T> *)
 {
-    throw T(msg.what(), _bstr_t(file), line) ;
+	throw Error<T>(msg.what(), _bstr_t(file), line);
 }
 /* */
 //	----------------------------------------------
@@ -386,8 +386,10 @@ ErrSpecific as its offspring
 Always used by dbjVERIFY() macro bellow
 
 */
-// macro that makes Err required by this mechanism
+// macro that makes Err type to be in 
+// the scope required by this mechanism
 #define dbjMAKE_ERR(x) typedef dbjsys::fm::Error<x> Err
+// 
 #define dbjTHROWERR(m) dbjsys::fm::__dbj_throw__(m,__FILE__,__LINE__, (Err*)0)
 //
 // this assertion always works , e.g. in a release mode

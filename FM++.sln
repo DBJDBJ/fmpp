@@ -2,13 +2,82 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fm", "fm\fm.vcxproj", "{084F2C2D-326C-493E-84FB-558E2139C926}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fm", "fm", "{3CAF0824-95E2-4724-A26F-953CDA613850}"
+	ProjectSection(SolutionItems) = preProject
+		fm\algo.h = fm\algo.h
+		fm\cmdline.h = fm\cmdline.h
+		fm\configuration.h = fm\configuration.h
+		fm\dbjio.h = fm\dbjio.h
+		fm\doctor.h = fm\doctor.h
+		fm\errortplt.h = fm\errortplt.h
+		fm\fm.h = fm\fm.h
+		fm\glob.h = fm\glob.h
+		fm\hash.h = fm\hash.h
+		fm\identifiable.h = fm\identifiable.h
+		fm\keyvaluepair.h = fm\keyvaluepair.h
+		fm\lockedcontainer.h = fm\lockedcontainer.h
+		fm\locks.h = fm\locks.h
+		fm\mutex.h = fm\mutex.h
+		fm\pairparser.h = fm\pairparser.h
+		fm\prompt.h = fm\prompt.h
+		fm\rciptr.h = fm\rciptr.h
+		fm\rcobject.h = fm\rcobject.h
+		fm\rcptr.h = fm\rcptr.h
+		fm\rcsptr.h = fm\rcsptr.h
+		fm\readme.md = fm\readme.md
+		fm\statefullobject.h = fm\statefullobject.h
+		fm\strcore.h = fm\strcore.h
+		fm\threadMap.h = fm\threadMap.h
+		fm\timer.h = fm\timer.h
+		fm\timestamp.h = fm\timestamp.h
+		fm\token.h = fm\token.h
+		fm\uid.h = fm\uid.h
+		fm\wrap.h = fm\wrap.h
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fm_testing", "fm_testing\fm_testing.vcxproj", "{B6526796-A174-4EDF-AF18-CA2633360B4F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "com", "com", "{CC4DB356-3004-480A-9FE1-B627E76C1EE5}"
+	ProjectSection(SolutionItems) = preProject
+		fm\com\combool.h = fm\com\combool.h
+		fm\com\comutils.h = fm\com\comutils.h
+		fm\com\comvector.h = fm\com\comvector.h
+		fm\com\dbjguid.h = fm\com\dbjguid.h
+		fm\com\dbjsyscomcategory.h = fm\com\dbjsyscomcategory.h
+		fm\com\DispCollectionHandler.h = fm\com\DispCollectionHandler.h
+		fm\com\dump_interfaces_services.h = fm\com\dump_interfaces_services.h
+		fm\com\eventproxy.h = fm\com\eventproxy.h
+		fm\com\filestream.h = fm\com\filestream.h
+		fm\com\wscuser.h = fm\com\wscuser.h
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbjptl", "fm\ptl\Ssptl.vcxproj", "{E8A7280E-AFA6-4EC6-A203-F8512361988F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fact", "fact", "{60692818-E066-46FD-A241-22EF0DF0CAE6}"
+	ProjectSection(SolutionItems) = preProject
+		fm\fact\factory.H = fm\fact\factory.H
+		fm\fact\factorybaseimplementation.h = fm\fact\factorybaseimplementation.h
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbjcli", "dbjcli\dbjcli.vcxproj", "{CF91104C-1126-40F6-A090-B4DEDEA8BC14}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ptl", "ptl", "{D8E004EE-AAFE-4266-B7E2-BE493F01401D}"
+	ProjectSection(SolutionItems) = preProject
+		fm\ptl\PTL.H = fm\ptl\PTL.H
+		fm\ptl\ptlexception.h = fm\ptl\ptlexception.h
+		fm\ptl\PTLSTORE.H = fm\ptl\PTLSTORE.H
+		fm\ptl\readme.md = fm\ptl\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "win", "win", "{E3F76A89-A257-4FE3-BF07-B5BF70A24F73}"
+	ProjectSection(SolutionItems) = preProject
+		fm\win\bstrex.h = fm\win\bstrex.h
+		fm\win\checkversion.h = fm\win\checkversion.h
+		fm\win\event.h = fm\win\event.h
+		fm\win\event_log.h = fm\win\event_log.h
+		fm\win\fileversion.h = fm\win\fileversion.h
+		fm\win\ievlog.h = fm\win\ievlog.h
+		fm\win\scmquery.h = fm\win\scmquery.h
+		fm\win\stringr.h = fm\win\stringr.h
+		fm\win\threadlocalstorage.h = fm\win\threadlocalstorage.h
+		fm\win\win32handle.h = fm\win\win32handle.h
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmt", "fmt\fmt.vcxproj", "{E0924AC9-F8CA-41AC-9969-3E6975911D9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,24 +85,18 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{084F2C2D-326C-493E-84FB-558E2139C926}.Debug|Win32.ActiveCfg = Debug|Win32
-		{084F2C2D-326C-493E-84FB-558E2139C926}.Debug|Win32.Build.0 = Debug|Win32
-		{084F2C2D-326C-493E-84FB-558E2139C926}.Release|Win32.ActiveCfg = Release|Win32
-		{084F2C2D-326C-493E-84FB-558E2139C926}.Release|Win32.Build.0 = Release|Win32
-		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Debug|Win32.Build.0 = Debug|Win32
-		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Release|Win32.ActiveCfg = Release|Win32
-		{B6526796-A174-4EDF-AF18-CA2633360B4F}.Release|Win32.Build.0 = Release|Win32
-		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Debug|Win32.Build.0 = Debug|Win32
-		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Release|Win32.ActiveCfg = Release|Win32
-		{E8A7280E-AFA6-4EC6-A203-F8512361988F}.Release|Win32.Build.0 = Release|Win32
-		{CF91104C-1126-40F6-A090-B4DEDEA8BC14}.Debug|Win32.ActiveCfg = Debug|Win32
-		{CF91104C-1126-40F6-A090-B4DEDEA8BC14}.Debug|Win32.Build.0 = Debug|Win32
-		{CF91104C-1126-40F6-A090-B4DEDEA8BC14}.Release|Win32.ActiveCfg = Release|Win32
-		{CF91104C-1126-40F6-A090-B4DEDEA8BC14}.Release|Win32.Build.0 = Release|Win32
+		{E0924AC9-F8CA-41AC-9969-3E6975911D9E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E0924AC9-F8CA-41AC-9969-3E6975911D9E}.Debug|Win32.Build.0 = Debug|Win32
+		{E0924AC9-F8CA-41AC-9969-3E6975911D9E}.Release|Win32.ActiveCfg = Release|Win32
+		{E0924AC9-F8CA-41AC-9969-3E6975911D9E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC4DB356-3004-480A-9FE1-B627E76C1EE5} = {3CAF0824-95E2-4724-A26F-953CDA613850}
+		{60692818-E066-46FD-A241-22EF0DF0CAE6} = {3CAF0824-95E2-4724-A26F-953CDA613850}
+		{D8E004EE-AAFE-4266-B7E2-BE493F01401D} = {3CAF0824-95E2-4724-A26F-953CDA613850}
+		{E3F76A89-A257-4FE3-BF07-B5BF70A24F73} = {3CAF0824-95E2-4724-A26F-953CDA613850}
 	EndGlobalSection
 EndGlobal

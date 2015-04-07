@@ -14,8 +14,6 @@
 //  $Date: $
 //  $Revision: $
 //*****************************************************************************/
-#ifndef __REF_COUNTED_SHARED_POINTER_h_
-#define __REF_COUNTED_SHARED_POINTER_h_ 1
 #pragma once
 //---------------------------------------------------------------------------------------
 namespace dbjsys {
@@ -24,7 +22,6 @@ namespace dbjsys {
 
 // Reference Counting SHARED Reference.
 // No copying is done, so you can have a Ref to a virtual base class
-
 // 
 template<class T> 
 class SREF
@@ -198,5 +195,4 @@ inline bool SREF<T>::operator==( const SREF<T> & rhs ) const throw()
 }; // dbjsys
 //---------------------------------------------------------------------------------------
 
-#endif //__REF_COUNTED_SHARED_POINTER_h_
 

@@ -28,16 +28,16 @@ ReportEvent					Writes an entry at the end of the specified event log.
 
 #pragma once
 
+#include "../fm.h"
+
 namespace dbjsys {
 	namespace fm {
 
 // interface to objectified WIN32 API for event logging -----------
 interface IEvLog {
 
-	// dbjMAKE_ERR(IEvLog) ;
-	// dbj_ERR(SomeSpecificLogicalError) ;
-
 	typedef Win32Error<IEvLog> Err ;
+	typedef SREF<IEvLog>  Shared_Ref_Type;
 
 	//-------------------------------------------------------------
 	virtual void backupEventLog				
@@ -159,10 +159,6 @@ interface IEvLog {
 		  LPVOID lpRawData     // binary data buffer
 	) const = 0 ;
 	//-------------------------------------------------------------
-	// factory method for making instances of implementation
-	// of this interface
-	
-	static SREF<IEvLog> make () ;
 
 	struct Details
 	{
@@ -300,15 +296,15 @@ interface IEvLog {
 	}; // eof LoggingFile
 	//-------------------------------------------------------------
 
-	} // fm
-} // dbjsys
-
-
-namespace dbjsys {
-	namespace fm {
-
 		typedef IEvLog::Err Err;
 
+		interface IEvLog;
+		class event_log;
+		//////////////////////////////////////////////////////////////////////
+		// factory method for making instances of implementation
+		// of this interface.
+		// HINT: this is not a singleton
+		SREF<IEvLog> IEvLog_make();
 		// class that takes care of closing a registry key
 		// 
 		class RegKey
@@ -359,7 +355,7 @@ namespace dbjsys {
 			source_name_(source_name),
 			server_name_(server_name),
 			evlog_handle_(0),
-			evlog_(IEvLog::make())
+			evlog_(IEvLog_make())
 		{
 			ready_the_event_log();
 		}
@@ -412,7 +408,7 @@ namespace dbjsys {
 			source_name_(source_name),
 			server_name_(server_name),
 			evlog_handle_(0),
-			evlog_(IEvLog::make())
+			evlog_(IEvLog_make())
 		{
 			ready_the_event_log();
 		}
@@ -802,8 +798,6 @@ namespace dbjsys {
 		{
 			dbjTHROWERR(L"MULTI_SZ2string() Not implemented yet");
 		}
-
-
 
 	} // namespace fm
 } // namespace dbjsys
