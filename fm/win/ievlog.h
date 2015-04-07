@@ -34,7 +34,9 @@ namespace dbjsys {
 	namespace fm {
 
 // interface to objectified WIN32 API for event logging -----------
-interface IEvLog {
+class IEvLog {
+
+public:
 
 	typedef Win32Error<IEvLog> Err ;
 	typedef SREF<IEvLog>  Shared_Ref_Type;
@@ -192,7 +194,7 @@ interface IEvLog {
 	//-------------------------------------------------------------
 
 
-	// encapsulation of logging file logic
+// encapsulation of logging file logic
 // 
 	class LoggingFile
 	{
@@ -298,13 +300,12 @@ interface IEvLog {
 
 		typedef IEvLog::Err Err;
 
-		interface IEvLog;
-		class event_log;
 		//////////////////////////////////////////////////////////////////////
 		// factory method for making instances of implementation
 		// of this interface.
 		// HINT: this is not a singleton
 		SREF<IEvLog> IEvLog_make();
+
 		// class that takes care of closing a registry key
 		// 
 		class RegKey

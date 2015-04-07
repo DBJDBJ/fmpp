@@ -14,7 +14,6 @@ namespace dbjsys {
 	namespace fm {
 //////////////////////////////////////////////////////////////////////
 // 
-
 		class event_log : public IEvLog
 		{
 		public:
