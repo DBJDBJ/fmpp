@@ -45,6 +45,8 @@ namespace dbjsys {
 
 		static const _bstr_t  FMPP_TITLE = FMPP_NAME + _bstr_t(FMPP_YEAR) + dot() + FMPP_MJRR + dot() + FMPP_MINR;
 
+		static const wchar_t * const  ERR_INTRO = L"Fm++ Error ----------------------------------------------------------------- \n\n";
+
 		//--------------------------------------------------------------------------------
 	} //    namespace glob
 } // namespace dbjsys 

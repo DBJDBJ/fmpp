@@ -131,6 +131,9 @@ _bstr_t dbjtypename( T * t_null /* = (T*)0 */ )
 				{
 					const_cast<DBJSYSError*>(this)->reported_ = true;
 					::Beep(100, 300);
+					/*
+					TODO server side apps must not pop message boxes ...
+					*/
 					err_msg_box(errmsg_);
 				}
 				return errmsg_;
@@ -145,10 +148,17 @@ _bstr_t dbjtypename( T * t_null /* = (T*)0 */ )
 
 			static void err_msg_box(
 				const _bstr_t & msg_, 
-				const _bstr_t & title_ = TEXT("Fm++ Error ----------------------------------------------------------------- "), 
+				const _bstr_t & title_ = glob::FMPP_TITLE , 
 				bool   exit_  = false)
 			{
-				MessageBox(NULL, (LPCTSTR)msg_, title_, MB_OK);
+				try {
+					::MessageBox(NULL, 
+						(LPCTSTR)(glob::ERR_INTRO + msg_),
+						title_, MB_OK);
+				}
+				catch (...) {
+					/* server side apps must not pop message boxes */
+				}
 
 				if ( exit_)
 					ExitProcess(GetLastError());
@@ -295,13 +305,14 @@ template<class T> class Win32Error : public Error<T>
 		}
 
 		//template<class T>
-		static void report_only(
+		static _bstr_t report_only(
 			DWORD winerr_ = ::GetLastError(),
 			const _bstr_t & file = L"", 
 			const long & line_ = 0)
 		{
 			Win32Error<T> ERR_(winerr_, file,line_);
 			ERR_.report(true);
+			return ERR_.what();
 		}
 } ;
 
@@ -327,11 +338,13 @@ void __dbj_throw__ ( const _bstr_t &  msg, const _bstr_t &  file, const int line
         throw T(msg,file,line) ;
 }
 //	----------------------------------------------
+/*
 template < class T > inline
 void __dbj_throw__ ( const _bstr_t & msg, const char * file, const int line, T * )
 {
         throw T(msg, _bstr_t(file) ,line) ;
 }
+*/
 //	----------------------------------------------
 /* 
 This in effect transforms std::exception to DBJSYSError

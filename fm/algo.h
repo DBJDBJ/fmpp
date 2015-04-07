@@ -672,7 +672,7 @@ static bool cut_down_to_size(int logfile_handle_)
 //
 // 040415   DBJ				Definite legacy function ... serious reqork needed
 //
-extern "C" void switchErrLog(const _bstr_t & name, const int appendLog)
+void switchErrLog(const _bstr_t & name, const int appendLog)
 {
 	_bstr_t  fullpath = algo::makeLogFileName(name.length() > 1 ? name : glob::DFLT_LOG_FILE() );
 
