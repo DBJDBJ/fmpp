@@ -76,15 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dbjcli\dbjcli.cpp" />
-    <ClCompile Include="..\dbjcli\stdafx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\dbjcli\readme.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\dbjcli\stdafx.h" />
-    <ClInclude Include="..\dbjcli\targetver.h" />
+    <ClCompile Include="fmt.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
