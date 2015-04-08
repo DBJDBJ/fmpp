@@ -14,9 +14,11 @@ namespace dbjsys {
 	namespace fm {
 //////////////////////////////////////////////////////////////////////
 // 
-		class event_log : public IEvLog
+		class event_log : public IEvLog<event_log>
 		{
 		public:
+
+			typedef  IEvLog<event_log>		Parent;
 
 			//////////////////////////////////////////////////////////////////////
 			event_log::event_log()
@@ -164,17 +166,9 @@ namespace dbjsys {
 
 		}; // event_log
 
-		//////////////////////////////////////////////////////////////////////
-		// factory method for making instances of implementation
-		// of this interface.
-		// HINT: this is not a singleton
-		inline SREF<IEvLog> IEvLog_make()
-		{
-			return ::new event_log();
-		}
 
 //////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
+///                                                               ////
 //////////////////////////////////////////////////////////////////////
 		//-------------------------------------------------------------
 		// Saves the specified event log to a backup file. 
