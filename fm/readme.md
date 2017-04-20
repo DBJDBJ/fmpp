@@ -1,6 +1,6 @@
 -----------------
-#FM++  
-##Quick Usage Overview  
+# FM++  
+## Quick Usage Overview  
 -----------------
 
 This is exclusively Windows C++ API product, built with Microsoft Visual C++ compiler.  
@@ -15,4 +15,4 @@ This is exclusively Windows C++ API product, built with Microsoft Visual C++ com
 Author &amp; Architect: DBJDBJ   
 Licensing: MIT &amp; GPL
 -------------------
-####&copy; 2015 by [![dbj();](http://dbj.dbjdbj.org/wp-content/uploads/2014/06/dbj100x100.png)](http://www.dbj.org "dbj") 
+####&copy; 2015-2017 by [![dbj();](http://dbj.org/wp-content/uploads/2014/06/dbj100x100.png)](http://www.dbj.org "dbj") 
